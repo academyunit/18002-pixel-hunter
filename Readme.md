@@ -1,7 +1,7 @@
 # Личный проект «Пиксель хантер» [![Build status][travis-image]][travis-url]
 
 * Студент: [Владимир Крюков](https://up.htmlacademy.ru/ecmascript/4/user/18002).
-* Наставник: `Неизвестно`.
+* Наставник: [Леонид Лебедев](https://htmlacademy.ru/profile/leonidlebedev).
 
 ---
 

@@ -40,14 +40,13 @@ const KEYBOARD_KEYS = {
  * @todo: Почему с маленькой? Это же вроде своего рода хелпер, разве они не должны с заглавной называться?
  */
 const keyboardControls = {
-  isAlt: (keyCode) => keyCode === KEYBOARD_KEYS.ALT,
   isLeftArrow: (keyCode) => keyCode === KEYBOARD_KEYS.ARROW_LEFT,
   isRightArrow: (keyCode) => keyCode === KEYBOARD_KEYS.ARROW_RIGHT
 };
 
 /** Состояние приложения. Пока тут только текущий активный скрин. */
 const state = {
-  currentScreen: SCREEN_NAMES.GREETING
+  currentScreenId: SCREEN_NAMES.GREETING
 };
 /** Сцена */
 const stage = document.querySelector(`.central`);
@@ -80,16 +79,33 @@ function getScreenById(id) {
   if (!SCREENS[id]) {
     return null;
   }
-  state.currentScreen = id;
 
   return SCREENS[id].content.cloneNode(true);
 }
 
 /**
- * Clear out the stage.
+ * Обновить значение текущего currentScreenId
+ *
+ * @param {Number} id
+ */
+function setCurrentScreenId(id) {
+  state.currentScreenId = id;
+}
+
+/**
+ * Очистить сцену.
  */
 function clearStage() {
   removeElements(stage);
+}
+
+/**
+ * Добавить новый экран на сцену.
+ *
+ * @param {Node} newScreen
+ */
+function attachScreenToStage(newScreen) {
+  stage.appendChild(newScreen);
 }
 
 /**
@@ -102,13 +118,13 @@ function renderStageScreen(screenId) {
   if (!newScreen) {
     return;
   }
-
+  setCurrentScreenId(screenId);
   clearStage();
-  stage.appendChild(newScreen);
+  attachScreenToStage(newScreen);
 }
 
 /**
- * Remove children of a given node.
+ * Удалить элементы из DOM'a.
  *
  * @param {Node} node
  */
@@ -119,7 +135,7 @@ function removeElements(node) {
 }
 
 /**
- * On key up handler.
+ * Обработчик перелистывания скринов влево/вправо.
  *
  * @param {Event} event
  */
@@ -142,7 +158,7 @@ function onSwipeScreen(event) {
  * Показать предыдущий экран.
  */
 function showPreviousScreen() {
-  const newScreenId = state.currentScreen - 1;
+  const newScreenId = state.currentScreenId - 1;
   if (newScreenId < getFirstIntroScreenId()) {
     return;
   }
@@ -154,7 +170,7 @@ function showPreviousScreen() {
  * Показать следующий экран.
  */
 function showNextScreen() {
-  const newScreenId = state.currentScreen + 1;
+  const newScreenId = state.currentScreenId + 1;
   if (newScreenId > getLastIntroScreenId()) {
     return;
   }

@@ -9,7 +9,7 @@
  * ...
  * }
  */
-const SCREEN_NAMES = {
+const ScreenName = {
   GREETING: 0,
   RULES: 1,
   GAME_1: 2,
@@ -19,34 +19,34 @@ const SCREEN_NAMES = {
 };
 
 /** Шаблоны экранов игры */
-const SCREENS = [
+const Screens = [
   document.getElementById(`greeting`),
   document.getElementById(`rules`),
   document.getElementById(`game-1`),
   document.getElementById(`game-2`),
   document.getElementById(`game-3`),
-  document.getElementById(`stats`),
+  document.getElementById(`stats`)
 ];
 
 /**
  * Кнопки клавиатуры.
  */
-const KEYBOARD_KEYS = {
+const KeyboardKey = {
   ARROW_LEFT: 37,
-  ARROW_RIGHT: 39,
+  ARROW_RIGHT: 39
 };
 
 /**
  * @todo: Почему с маленькой? Это же вроде своего рода хелпер, разве они не должны с заглавной называться?
  */
 const keyboardControls = {
-  isLeftArrow: (keyCode) => keyCode === KEYBOARD_KEYS.ARROW_LEFT,
-  isRightArrow: (keyCode) => keyCode === KEYBOARD_KEYS.ARROW_RIGHT
+  isLeftArrow: (keyCode) => keyCode === KeyboardKey.ARROW_LEFT,
+  isRightArrow: (keyCode) => keyCode === KeyboardKey.ARROW_RIGHT
 };
 
 /** Состояние приложения. Пока тут только текущий активный скрин. */
 const state = {
-  currentScreenId: SCREEN_NAMES.GREETING
+  currentScreenId: ScreenName.GREETING
 };
 /** Сцена */
 const stage = document.querySelector(`.central`);
@@ -56,18 +56,14 @@ const stage = document.querySelector(`.central`);
  *
  * @return {number}
  */
-function getFirstIntroScreenId() {
-  return SCREEN_NAMES.GREETING;
-}
+const getFirstIntroScreenId = () => ScreenName.GREETING;
 
 /**
  * ID последнего intro-экрана.
  *
  * @return {number}
  */
-function getLastIntroScreenId() {
-  return SCREEN_NAMES.RULES;
-}
+const getLastIntroScreenId = () => ScreenName.RULES;
 
 /**
  * Получить экран по ID.
@@ -75,45 +71,45 @@ function getLastIntroScreenId() {
  * @param {Number} id
  * @return {Node|null}
  */
-function getScreenById(id) {
-  if (!SCREENS[id]) {
+const getScreenById = (id) => {
+  if (!Screens[id]) {
     return null;
   }
 
-  return SCREENS[id].content.cloneNode(true);
-}
+  return Screens[id].content.cloneNode(true);
+};
 
 /**
  * Обновить значение текущего currentScreenId
  *
  * @param {Number} id
  */
-function setCurrentScreenId(id) {
+const setCurrentScreenId = (id) => {
   state.currentScreenId = id;
-}
+};
 
 /**
  * Очистить сцену.
  */
-function clearStage() {
+const clearStage = () => {
   removeElements(stage);
-}
+};
 
 /**
  * Добавить новый экран на сцену.
  *
  * @param {Node} newScreen
  */
-function attachScreenToStage(newScreen) {
+const attachScreenToStage = (newScreen) => {
   stage.appendChild(newScreen);
-}
+};
 
 /**
  * Отрисовка/смена экрана на сцене.
  *
  * @param {Number} screenId
  */
-function renderStageScreen(screenId) {
+const renderStageScreen = (screenId) => {
   const newScreen = getScreenById(screenId);
   if (!newScreen) {
     return;
@@ -121,25 +117,25 @@ function renderStageScreen(screenId) {
   setCurrentScreenId(screenId);
   clearStage();
   attachScreenToStage(newScreen);
-}
+};
 
 /**
  * Удалить элементы из DOM'a.
  *
  * @param {Node} node
  */
-function removeElements(node) {
+const removeElements = (node) => {
   while (node.firstChild) {
     node.removeChild(node.firstChild);
   }
-}
+};
 
 /**
  * Обработчик перелистывания скринов влево/вправо.
  *
  * @param {Event} event
  */
-function onSwipeScreen(event) {
+const onSwipeScreen = (event) => {
   const keyCode = event.keyCode;
 
   if (!event.altKey) {
@@ -152,31 +148,31 @@ function onSwipeScreen(event) {
   if (keyboardControls.isRightArrow(keyCode)) {
     showNextScreen();
   }
-}
+};
 
 /**
  * Показать предыдущий экран.
  */
-function showPreviousScreen() {
+const showPreviousScreen = () => {
   const newScreenId = state.currentScreenId - 1;
   if (newScreenId < getFirstIntroScreenId()) {
     return;
   }
 
   renderStageScreen(newScreenId);
-}
+};
 
 /**
  * Показать следующий экран.
  */
-function showNextScreen() {
+const showNextScreen = () => {
   const newScreenId = state.currentScreenId + 1;
   if (newScreenId > getLastIntroScreenId()) {
     return;
   }
 
   renderStageScreen(newScreenId);
-}
+};
 
 /**
  * Обработчики переключения экранов по ALT + LEFT/RIGHT.
@@ -186,4 +182,4 @@ document.addEventListener(`keyup`, onSwipeScreen);
 /**
  * Рендер сцены и экрана на ней.
  */
-renderStageScreen(SCREEN_NAMES.GREETING);
+renderStageScreen(ScreenName.GREETING);

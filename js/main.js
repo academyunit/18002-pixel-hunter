@@ -1,8 +1,7 @@
-import stage from './stage';
-import {ScreenName} from './constants';
+import {ScreenName} from './screens';
 import renderStageScreen from './render-screen';
 
 /**
  * Рендер сцены и экрана на ней.
  */
-renderStageScreen(stage, ScreenName.INTRO);
+renderStageScreen(ScreenName.INTRO);

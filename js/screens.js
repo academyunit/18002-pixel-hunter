@@ -1,20 +1,33 @@
-import screenIntro from './modules/intro';
-import screenGreeting from './modules/greeting';
-import screenRules from './modules/rules';
-import screenGame1 from './modules/game-1';
-import screenGame2 from './modules/game-2';
-import screenGame3 from './modules/game-3';
-import screenStats from './modules/stats';
+import intro from './modules/intro';
+import greeting from './modules/greeting';
+import rules from './modules/rules';
+import game1 from './modules/game-1';
+import game2 from './modules/game-2';
+import game3 from './modules/game-3';
+import stats from './modules/stats';
+
+/**
+ * Список констант с названиями экранов.
+ */
+export const ScreenName = {
+  INTRO: 0,
+  GREETING: 1,
+  RULES: 2,
+  GAME_1: 3,
+  GAME_2: 4,
+  GAME_3: 5,
+  STATS: 6
+};
 
 /**
  * Игровые экраны.
  */
-export default [
-  screenIntro,
-  screenGreeting,
-  screenRules,
-  screenGame1,
-  screenGame2,
-  screenGame3,
-  screenStats
+export const Screens = [
+  intro,
+  greeting,
+  rules,
+  game1,
+  game2,
+  game3,
+  stats
 ];

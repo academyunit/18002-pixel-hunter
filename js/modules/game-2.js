@@ -1,6 +1,7 @@
-import {ScreenName} from '../constants';
-import getElementFromTemplate from '../templater.js';
-import switchScreen, {switchScreenOnAnswer} from '../switch-screen';
+import {ScreenName} from '../screens';
+import renderScreenById from '../render-screen';
+import getElementFromTemplate from '../templater';
+import {isRadioButtonChecked} from '../utils';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -59,19 +60,14 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
-const checkAnswers = () => {
-  const option = template.querySelector('.game__option');
+const question1Options = template.querySelectorAll(`input[name="question1"]`);
 
-  option.addEventListener('click', function(event) {
-    const target = event.target;
-    if (target.tagName != 'INPUT') {
-      return;
-    }
-
-    switchScreenOnAnswer(ScreenName.GAME_3);
-  });
+const handleChange = () => {
+  if (isRadioButtonChecked(question1Options)) {
+    renderScreenById(ScreenName.GAME_3);
+  }
 };
 
-checkAnswers();
+template.addEventListener(`change`, handleChange);
 
 export default template;

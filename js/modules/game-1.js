@@ -1,6 +1,7 @@
-import {ScreenName} from '../constants';
-import getElementFromTemplate from '../templater.js';
-import switchScreen, {switchScreenOnAnswer} from '../switch-screen';
+import {ScreenName} from '../screens';
+import renderScreenById from '../render-screen';
+import getElementFromTemplate from '../templater';
+import {isRadioButtonChecked} from '../utils';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -70,47 +71,15 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
-/**
- * @todo: нужно это зарефакторить как-то ))
- */
-const checkAnswers = () => {
-  const content = template.querySelector('.game__content');
-  const options = content.querySelectorAll('.game__option');
+const question1Options = template.querySelectorAll(`input[name="question1"]`);
+const question2Options = template.querySelectorAll(`input[name="question2"]`);
 
-  const isAnsweredQuestion = (questionContainer) => {
-    const answers = questionContainer.querySelectorAll('input[type="radio"]');
-    for (const answer of answers) {
-      if (answer.checked) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  const getSiblingQuestion = (questionContainer) => {
-    return questionContainer.nextElementSibling
-      ? questionContainer.nextElementSibling
-      : questionContainer.previousElementSibling;
-  };
-
-  // @todo: мб делегация тут лучше
-  options.forEach((option) => {
-    option.addEventListener('click', function(event) {
-      const target = event.target;
-      if (target.tagName != 'INPUT') {
-        return;
-      }
-      const questionContainer = target.closest('.game__option');
-      const nextQuestionContainer = getSiblingQuestion(questionContainer);
-
-      if (isAnsweredQuestion(nextQuestionContainer)) {
-        switchScreenOnAnswer(ScreenName.GAME_2);
-      }
-    });
-  });
+const handleChange = () => {
+  if (isRadioButtonChecked(question1Options) && isRadioButtonChecked(question2Options)) {
+    renderScreenById(ScreenName.GAME_2);
+  }
 };
 
-checkAnswers();
+template.addEventListener(`change`, handleChange);
 
 export default template;

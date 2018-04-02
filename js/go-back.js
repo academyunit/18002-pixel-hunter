@@ -1,14 +1,20 @@
-import stage from './stage';
-import {ScreenName} from './constants';
-import Screens from './screens';
-import renderStageScreen from 'render-screen';
+import {ScreenName} from './screens';
+import renderScreenById from './render-screen';
 
-export default (element) => {
-  const backButton = element.querySelector('button.back');
+/**
+ * Обработчик кнопки Назад.
+ *
+ * @param {Event} event
+ */
+export default (event) => {
+  let target = event.target;
 
-  backButton.addEventListener('click', function() {
-    renderStageScreen(stage, Screens.INTRO);
-  });
+  while (target !== event.currentTarget) {
+    if (target.tagName === `BUTTON` && target.className === `back`) {
+      renderScreenById(ScreenName.INTRO);
+      return;
+    }
 
-  return element;
-}
+    target = target.parentNode;
+  }
+};

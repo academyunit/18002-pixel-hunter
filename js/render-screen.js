@@ -1,5 +1,7 @@
-import Screens from './screens';
+import {Screens} from './screens';
 import {removeElements} from './utils';
+
+const stage = document.querySelector(`.central`);
 
 /**
  * Получить экран по ID.
@@ -17,34 +19,32 @@ const getScreenById = (id) => {
 /**
  * Очистить сцену.
  */
-const clearStage = (stage) => {
+const clearStage = () => {
   removeElements(stage);
 };
 
 /**
  * Добавить новый экран на сцену.
  *
- * @param {Node} stage
  * @param {Node} screen
  */
-const attachScreenToStage = (stage, screen) => {
+const attachScreenToStage = (screen) => {
   stage.appendChild(screen);
 };
 
 /**
  * Рендер экрана приложения на сцену.
  *
- * @param {Node} stage
  * @param {Number} screenId
  */
-const renderStageScreen = (stage, screenId) => {
+const renderScreenById = (screenId) => {
   const screen = getScreenById(screenId);
   if (!screen) {
     return;
   }
 
-  clearStage(stage);
-  attachScreenToStage(stage, screen);
+  clearStage();
+  attachScreenToStage(screen);
 };
 
-export default renderStageScreen;
+export default renderScreenById;

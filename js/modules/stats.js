@@ -1,6 +1,6 @@
 import getElementFromTemplate from '../templater.js';
 
-const template = `
+const template = getElementFromTemplate(`
 <header class="header">
   <div class="header__back">
     <button class="back">
@@ -118,6 +118,6 @@ const template = `
     <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
     <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
   </div>
-</footer>`;
+</footer>`);
 
-export default getElementFromTemplate(template);
+export default template;

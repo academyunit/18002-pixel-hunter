@@ -1,6 +1,6 @@
-import {ScreenName} from '../constants';
-import getElementFromTemplate from '../templater.js';
-import switchScreen from '../switch-screen';
+import {ScreenName} from '../screens';
+import renderScreenById from '../render-screen';
+import getElementFromTemplate from '../templater';
 
 const template = getElementFromTemplate(`
 <div id="main" class="central__content">
@@ -20,4 +20,12 @@ const template = getElementFromTemplate(`
   </div>
 </footer>`);
 
-export default switchScreen(ScreenName.GREETING)(template, '.intro__asterisk');
+const handleClick = (event) => {
+  if (event.target.className === `intro__asterisk`) {
+    renderScreenById(ScreenName.GREETING);
+  }
+};
+
+template.addEventListener(`click`, handleClick);
+
+export default template;

@@ -1,6 +1,6 @@
-import {ScreenName} from '../constants';
-import getElementFromTemplate from '../templater.js';
-import switchScreen, {switchScreenOnAnswer} from '../switch-screen';
+import {ScreenName} from '../screens';
+import renderScreenById from '../render-screen';
+import getElementFromTemplate from '../templater';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -56,19 +56,19 @@ const template = getElementFromTemplate(`
   </div>
 </footer>`);
 
-const checkAnswers = () => {
-  const options = template.querySelector('.game__content');
+const handleClick = (event) => {
+  let target = event.target;
 
-  options.addEventListener('click', function(event) {
-    const target = event.target;
-    if (!target.classList.contains('game__option')) {
+  while (target !== event.currentTarget) {
+    if (target.className === `game__option`) {
+      renderScreenById(ScreenName.STATS);
       return;
     }
 
-    switchScreenOnAnswer(ScreenName.STATS);
-  });
+    target = target.parentNode;
+  }
 };
 
-checkAnswers();
+template.addEventListener(`click`, handleClick);
 
 export default template;

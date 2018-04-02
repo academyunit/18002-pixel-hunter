@@ -8,3 +8,19 @@ export const removeElements = (node) => {
     node.removeChild(node.firstChild);
   }
 };
+
+/**
+ * Проверить включен ли чекбокс.
+ *
+ * @param {NodeList} options
+ * @return {boolean}
+ */
+export const isRadioButtonChecked = (options) => {
+  for (const option of options) {
+    if (option.checked) {
+      return true;
+    }
+  }
+
+  return false;
+};

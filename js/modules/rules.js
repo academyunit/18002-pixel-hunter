@@ -1,11 +1,7 @@
-import {ScreenName} from '../constants';
-import getElementFromTemplate from '../templater.js';
-import switchScreen from '../switch-screen';
-/**
- * почему-то не работает. Начинает выдавать странные ошибки в файле main.js, что renderStageScene() is undefined.
- * похоже, что когда делаешь import'ы renderStageScene() в нескольких местах, то перестает работать вообще
- */
-//import goBack from '../go-back';
+import {ScreenName} from '../screens';
+import renderScreenById from '../render-screen';
+import getElementFromTemplate from '../templater';
+import handleGoBackClick from '../go-back';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -44,36 +40,25 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
-const processUserInput = () => {
-  const form = template.querySelector('.rules__form');
-  const formInput = template.querySelector('.rules__input');
-  const formSubmitButton = form.querySelector('.rules__button');
+const submitButton = template.querySelector(`.rules__button`);
 
-  /**
-   * @todo: не работает submit в форме. Выдает ошибку:
-   * "Form submission canceled because the form is not connected"
-   *
-   * Гуглил эту штуку, пишут что это из-за того, что форма еще не находится
-   * в document.body.
-   *
-   * Что тут можно сделать? Неужели каким-то образом обработчики ставить в другом
-   * месте все?
-   */
-  form.addEventListener('submit', function(event) {
-    event.preventDefault();
+const handleInput = (event) => {
+  const target = event.target;
 
-    console.log('form submit');
-  });
+  if (target.className !== `rules__input`) {
+    return;
+  }
 
-  formInput.addEventListener('keyup', function() {
-    if (!this.value) {
-      formSubmitButton.setAttribute('disabled', 'disabled');
-      return;
-    }
-    formSubmitButton.removeAttribute('disabled');
-  });
+  submitButton.disabled = !target.value;
 };
 
-processUserInput();
+const handleSubmit = (event) => {
+  event.preventDefault();
+  renderScreenById(ScreenName.GAME_1);
+};
 
-export default /*goBack*/(switchScreen(ScreenName.GAME_1)(template, '.rules__button'));
+template.addEventListener(`input`, handleInput);
+template.addEventListener(`submit`, handleSubmit);
+template.addEventListener(`click`, handleGoBackClick);
+
+export default template;

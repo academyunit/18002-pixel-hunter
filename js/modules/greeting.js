@@ -1,6 +1,6 @@
-import {ScreenName} from '../constants';
-import getElementFromTemplate from '../templater.js';
-import switchScreen from '../switch-screen';
+import {ScreenName} from '../screens';
+import renderScreenById from '../render-screen';
+import getElementFromTemplate from '../templater';
 
 const template = getElementFromTemplate(`
 <div class="greeting central--blur">
@@ -27,4 +27,20 @@ const template = getElementFromTemplate(`
   </div>
 </footer>
 `);
-export default switchScreen(ScreenName.RULES)(template, '.greeting__continue');
+
+const handleClick = (event) => {
+  let target = event.target;
+
+  while (target !== event.currentTarget) {
+    if (target.className === `greeting__continue`) {
+      renderScreenById(ScreenName.RULES);
+      return;
+    }
+
+    target = target.parentNode;
+  }
+};
+
+template.addEventListener(`click`, handleClick);
+
+export default template;

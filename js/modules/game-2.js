@@ -2,6 +2,7 @@ import {ScreenName} from '../screens';
 import renderScreenById from '../render-screen';
 import getElementFromTemplate from '../templater';
 import {isRadioButtonChecked} from '../utils';
+import handleGoBackClick from '../go-back';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -62,12 +63,20 @@ const template = getElementFromTemplate(`
 
 const question1Options = template.querySelectorAll(`input[name="question1"]`);
 
+const resetQuestion = () => {
+  question1Options.forEach((option) => {
+    option.checked = false;
+  });
+};
+
 const handleChange = () => {
   if (isRadioButtonChecked(question1Options)) {
+    resetQuestion();
     renderScreenById(ScreenName.GAME_3);
   }
 };
 
 template.addEventListener(`change`, handleChange);
+template.addEventListener(`click`, handleGoBackClick);
 
 export default template;

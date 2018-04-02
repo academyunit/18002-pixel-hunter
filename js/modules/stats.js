@@ -1,4 +1,5 @@
 import getElementFromTemplate from '../templater.js';
+import handleGoBackClick from '../go-back';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -119,5 +120,7 @@ const template = getElementFromTemplate(`
     <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
   </div>
 </footer>`);
+
+template.addEventListener(`click`, handleGoBackClick);
 
 export default template;

@@ -54,6 +54,9 @@ const handleInput = (event) => {
 
 const handleSubmit = (event) => {
   event.preventDefault();
+  event.target.reset();
+  submitButton.disabled = true;
+
   renderScreenById(ScreenName.GAME_1);
 };
 

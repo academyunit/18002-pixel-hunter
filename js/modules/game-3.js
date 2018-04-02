@@ -1,6 +1,7 @@
 import {ScreenName} from '../screens';
 import renderScreenById from '../render-screen';
 import getElementFromTemplate from '../templater';
+import handleGoBackClick from '../go-back';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -70,5 +71,6 @@ const handleClick = (event) => {
 };
 
 template.addEventListener(`click`, handleClick);
+template.addEventListener(`click`, handleGoBackClick);
 
 export default template;

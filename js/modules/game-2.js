@@ -61,17 +61,12 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
+const form = template.querySelector(`.game__content`);
 const question1Options = template.querySelectorAll(`input[name="question1"]`);
-
-const resetQuestion = () => {
-  question1Options.forEach((option) => {
-    option.checked = false;
-  });
-};
 
 const handleChange = () => {
   if (isRadioButtonChecked(question1Options)) {
-    resetQuestion();
+    form.reset();
     renderScreenById(ScreenName.GAME_3);
   }
 };

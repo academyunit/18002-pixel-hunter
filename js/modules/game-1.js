@@ -72,21 +72,16 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
+const form = template.querySelector(`.game__content`);
+/**
+ * @todo: упростить
+ */
 const question1Options = template.querySelectorAll(`input[name="question1"]`);
 const question2Options = template.querySelectorAll(`input[name="question2"]`);
 
-const resetQuestions = () => {
-  question1Options.forEach((option) => {
-    option.checked = false;
-  });
-  question2Options.forEach((option) => {
-    option.checked = false;
-  });
-};
-
 const handleChange = () => {
   if (isRadioButtonChecked(question1Options) && isRadioButtonChecked(question2Options)) {
-    resetQuestions();
+    form.reset();
     renderScreenById(ScreenName.GAME_2);
   }
 };

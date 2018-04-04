@@ -18,7 +18,8 @@ const template = getElementFromTemplate(`
     <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
     <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
   </div>
-</footer>`);
+</footer>
+`);
 
 const handleClick = (event) => {
   if (event.target.className === `intro__asterisk`) {

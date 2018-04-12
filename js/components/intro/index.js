@@ -1,6 +1,5 @@
-import {ScreenName} from '../screens';
-import renderScreenById from '../render-screen';
-import getElementFromTemplate from '../templater';
+import {changeView, getElementFromTemplate} from '../../util';
+import screenGreeting from '../greeting/index';
 
 const template = getElementFromTemplate(`
 <div id="main" class="central__content">
@@ -21,12 +20,17 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
-const handleClick = (event) => {
-  if (event.target.className === `intro__asterisk`) {
-    renderScreenById(ScreenName.GREETING);
-  }
+
+export default () => {
+  const screen = template.cloneNode(true);
+
+  const handleClick = (event) => {
+    if (event.target.className === `intro__asterisk`) {
+      changeView(screenGreeting());
+    }
+  };
+
+  screen.addEventListener(`click`, handleClick);
+
+  return screen;
 };
-
-template.addEventListener(`click`, handleClick);
-
-export default template;

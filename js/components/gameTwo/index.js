@@ -1,7 +1,6 @@
-import {ScreenName} from '../screens';
-import renderScreenById from '../render-screen';
-import getElementFromTemplate from '../templater';
-import handleGoBackClick from '../go-back';
+import {changeView, getElementFromTemplate} from '../../util';
+import screenGameThree from '../gameThree/index';
+import handleGoBackClick from '../../go-back';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -19,16 +18,18 @@ const template = getElementFromTemplate(`
   </div>
 </header>
 <div class="game">
-  <p class="game__task">Найдите рисунок среди изображений</p>
-  <form class="game__content  game__content--triple">
+  <p class="game__task">Угадай, фото или рисунок?</p>
+  <form class="game__content  game__content--wide">
     <div class="game__option">
-      <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-    </div>
-    <div class="game__option  game__option--selected">
-      <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-    </div>
-    <div class="game__option">
-      <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+      <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
+      <label class="game__answer  game__answer--photo">
+        <input name="question1" type="radio" value="photo">
+        <span>Фото</span>
+      </label>
+      <label class="game__answer  game__answer--wide  game__answer--paint">
+        <input name="question1" type="radio" value="paint">
+        <span>Рисунок</span>
+      </label>
     </div>
   </form>
   <div class="stats">
@@ -55,22 +56,28 @@ const template = getElementFromTemplate(`
     <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
     <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
   </div>
-</footer>`);
+</footer>
+`);
 
-const handleClick = (event) => {
-  let target = event.target;
+export default () => {
+  const screen = template.cloneNode(true);
 
-  while (target !== event.currentTarget) {
-    if (target.className === `game__option`) {
-      renderScreenById(ScreenName.STATS);
+  const form = screen.querySelector(`.game__content`);
+  const answers = Array.from(form.querySelectorAll(`input[type="radio"]`));
+
+  const isAnswered = () => answers.some((answer) => answer.checked);
+  const handleChange = () => {
+    if (!isAnswered()) {
       return;
     }
 
-    target = target.parentNode;
-  }
+    form.reset();
+
+    changeView(screenGameThree());
+  };
+
+  form.addEventListener(`change`, handleChange);
+  screen.addEventListener(`click`, handleGoBackClick);
+
+  return screen;
 };
-
-template.addEventListener(`click`, handleClick);
-template.addEventListener(`click`, handleGoBackClick);
-
-export default template;

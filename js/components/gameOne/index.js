@@ -1,8 +1,6 @@
-import {ScreenName} from '../screens';
-import renderScreenById from '../render-screen';
-import getElementFromTemplate from '../templater';
-import {isRadioButtonChecked} from '../utils';
-import handleGoBackClick from '../go-back';
+import {changeView, getElementFromTemplate} from '../../util';
+import screenGameTwo from '../gameTwo/index';
+import handleGoBackClick from '../../go-back';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -72,21 +70,24 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
-const form = template.querySelector(`.game__content`);
-/**
- * @todo: упростить
- */
-const question1Options = template.querySelectorAll(`input[name="question1"]`);
-const question2Options = template.querySelectorAll(`input[name="question2"]`);
+export default () => {
+  const ANSWERS_REQUIRED = 2;
 
-const handleChange = () => {
-  if (isRadioButtonChecked(question1Options) && isRadioButtonChecked(question2Options)) {
-    form.reset();
-    renderScreenById(ScreenName.GAME_2);
-  }
+  const screen = template.cloneNode(true);
+  const form = screen.querySelector(`.game__content`);
+  const answers = Array.from(form.querySelectorAll(`input[type="radio"]`));
+
+  const isAnswered = () => answers.filter((answer) => answer.checked).length === ANSWERS_REQUIRED;
+  const handleChange = () => {
+    if (!isAnswered()) {
+      return;
+    }
+
+    changeView(screenGameTwo());
+  };
+
+  form.addEventListener(`change`, handleChange);
+  screen.addEventListener(`click`, handleGoBackClick);
+
+  return screen;
 };
-
-template.addEventListener(`change`, handleChange);
-template.addEventListener(`click`, handleGoBackClick);
-
-export default template;

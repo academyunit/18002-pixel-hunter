@@ -1,8 +1,6 @@
-import {ScreenName} from '../screens';
-import renderScreenById from '../render-screen';
-import getElementFromTemplate from '../templater';
-import {isRadioButtonChecked} from '../utils';
-import handleGoBackClick from '../go-back';
+import {changeView, getElementFromTemplate} from '../../util';
+import screenStats from '../stats/index';
+import handleGoBackClick from '../../go-back';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -20,18 +18,16 @@ const template = getElementFromTemplate(`
   </div>
 </header>
 <div class="game">
-  <p class="game__task">Угадай, фото или рисунок?</p>
-  <form class="game__content  game__content--wide">
+  <p class="game__task">Найдите рисунок среди изображений</p>
+  <form class="game__content  game__content--triple">
     <div class="game__option">
-      <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
-      <label class="game__answer  game__answer--photo">
-        <input name="question1" type="radio" value="photo">
-        <span>Фото</span>
-      </label>
-      <label class="game__answer  game__answer--wide  game__answer--paint">
-        <input name="question1" type="radio" value="paint">
-        <span>Рисунок</span>
-      </label>
+      <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+    </div>
+    <div class="game__option  game__option--selected">
+      <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
+    </div>
+    <div class="game__option">
+      <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
     </div>
   </form>
   <div class="stats">
@@ -61,17 +57,29 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
-const form = template.querySelector(`.game__content`);
-const question1Options = template.querySelectorAll(`input[name="question1"]`);
+export default () => {
+  const screen = template.cloneNode(true);
 
-const handleChange = () => {
-  if (isRadioButtonChecked(question1Options)) {
-    form.reset();
-    renderScreenById(ScreenName.GAME_3);
-  }
+  const form = screen.querySelector(`.game__content`);
+  const answers = Array.from(screen.querySelectorAll(`.game__option`));
+
+  const resetAnswers = () => answers.forEach((answer) => answer.classList.remove(`game__option--selected`));
+  const setAnswer = (answer) => answer.classList.add(`game__option--selected`);
+
+  const handleClick = (event) => {
+    const answer = event.target.closest(`.game__option`);
+    if (!answer) {
+      return;
+    }
+
+    resetAnswers();
+    setAnswer(answer);
+
+    changeView(screenStats());
+  };
+
+  form.addEventListener(`click`, handleClick);
+  screen.addEventListener(`click`, handleGoBackClick);
+
+  return screen;
 };
-
-template.addEventListener(`change`, handleChange);
-template.addEventListener(`click`, handleGoBackClick);
-
-export default template;

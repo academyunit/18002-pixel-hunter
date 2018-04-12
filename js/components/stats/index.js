@@ -1,5 +1,5 @@
-import getElementFromTemplate from '../templater.js';
-import handleGoBackClick from '../go-back';
+import {getElementFromTemplate} from '../../util';
+import handleGoBackClick from '../../go-back';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -122,6 +122,10 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
-template.addEventListener(`click`, handleGoBackClick);
+export default () => {
+  const screen = template.cloneNode(true);
 
-export default template;
+  screen.addEventListener(`click`, handleGoBackClick);
+
+  return screen;
+};

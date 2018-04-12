@@ -1,6 +1,5 @@
-import {ScreenName} from '../screens';
-import renderScreenById from '../render-screen';
-import getElementFromTemplate from '../templater';
+import {changeView, getElementFromTemplate} from '../../util';
+import screenRules from '../rules/index';
 
 const template = getElementFromTemplate(`
 <div class="greeting central--blur">
@@ -28,19 +27,19 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
-const handleClick = (event) => {
-  let target = event.target;
+export default () => {
+  const screen = template.cloneNode(true);
 
-  while (target !== event.currentTarget) {
-    if (target.className === `greeting__continue`) {
-      renderScreenById(ScreenName.RULES);
+  const handleClick = (event) => {
+    const target = event.target.closest(`.greeting__continue`);
+    if (!target) {
       return;
     }
 
-    target = target.parentNode;
-  }
+    changeView(screenRules());
+  };
+
+  screen.addEventListener(`click`, handleClick);
+
+  return screen;
 };
-
-template.addEventListener(`click`, handleClick);
-
-export default template;

@@ -1,7 +1,6 @@
-import {ScreenName} from '../screens';
-import renderScreenById from '../render-screen';
-import getElementFromTemplate from '../templater';
-import handleGoBackClick from '../go-back';
+import {changeView, getElementFromTemplate} from '../../util';
+import screenGameOne from '../gameOne/index';
+import handleGoBackClick from '../../go-back';
 
 const template = getElementFromTemplate(`
 <header class="header">
@@ -40,28 +39,27 @@ const template = getElementFromTemplate(`
 </footer>
 `);
 
-const submitButton = template.querySelector(`.rules__button`);
+export default () => {
+  const screen = template.cloneNode(true);
 
-const handleInput = (event) => {
-  const target = event.target;
+  const form = screen.querySelector(`.rules__form`);
+  const inputField = form.querySelector(`.rules__input`);
+  const submitButton = form.querySelector(`.rules__button`);
 
-  if (target.className !== `rules__input`) {
-    return;
-  }
+  const handleInput = (event) => {
+    submitButton.disabled = !event.target.value;
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    event.target.reset();
+    submitButton.disabled = true;
 
-  submitButton.disabled = !target.value;
+    changeView(screenGameOne());
+  };
+
+  inputField.addEventListener(`input`, handleInput);
+  form.addEventListener(`submit`, handleSubmit);
+  screen.addEventListener(`click`, handleGoBackClick);
+
+  return screen;
 };
-
-const handleSubmit = (event) => {
-  event.preventDefault();
-  event.target.reset();
-  submitButton.disabled = true;
-
-  renderScreenById(ScreenName.GAME_1);
-};
-
-template.addEventListener(`input`, handleInput);
-template.addEventListener(`submit`, handleSubmit);
-template.addEventListener(`click`, handleGoBackClick);
-
-export default template;

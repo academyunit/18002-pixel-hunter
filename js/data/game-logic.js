@@ -1,4 +1,23 @@
+import {isObject} from '../is';
+
+/** Кол-во жизней */
 const DEFAULT_LIVES = 3;
+/** Бонус за оставшуюся жизнь */
+const LIFE_BONUS = 50;
+/** Кол-во ответов */
+export const ANSWERS_COUNT = 10;
+/** Кол-во очков за ответ */
+export const ANSWER_POINT = {
+  default: 100,
+  bonus: 50,
+  fine: -50
+};
+/** Время ответа на вопросы */
+export const ANSWER_TIME = {
+  slow: 20,
+  fast: 10
+};
+
 const isFastAnswer = (time) => time < 10;
 const isSlowAnswer = (time) => time > 20;
 
@@ -23,7 +42,7 @@ export const checkScores = (answers) => {
   let answersFail = 0;
 
   answers.forEach((answer, index) => {
-    if (typeof answer !== `object` && !Array.isArray(answer)) {
+    if (!isObject(answer)) {
       throw new Error(`Given answer isn't an object!`);
     }
     if (index >= 10) {

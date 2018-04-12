@@ -1,7 +1,6 @@
-import {ScreenName} from './screens';
-import renderStageScreen from './render-screen';
+import {changeView} from './util';
+import screenIntro from './components/intro/index';
 
-/**
- * Рендер сцены и экрана на ней.
- */
-renderStageScreen(ScreenName.INTRO);
+document.addEventListener(`DOMContentLoaded`, () => {
+  changeView(screenIntro());
+});

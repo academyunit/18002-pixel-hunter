@@ -1,5 +1,5 @@
-import {ScreenName} from './screens';
-import renderScreenById from './render-screen';
+import {changeView} from './util';
+import screenIntro from './components/intro/index';
 
 /**
  * Обработчик кнопки Назад.
@@ -11,7 +11,7 @@ export default (event) => {
 
   while (target !== event.currentTarget) {
     if (target.tagName === `BUTTON` && target.className === `back`) {
-      renderScreenById(ScreenName.INTRO);
+      changeView(screenIntro());
       return;
     }
 

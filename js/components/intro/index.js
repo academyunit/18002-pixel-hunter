@@ -1,6 +1,6 @@
 import {changeView, getElementFromTemplate} from '../../util';
 import screenGreeting from '../greeting/index';
-import footer from "../../markups/footer";
+import getFooter from "../../markups/footer";
 
 const template = getElementFromTemplate(`
 <div id="main" class="central__content">
@@ -9,7 +9,7 @@ const template = getElementFromTemplate(`
     <p class="intro__motto"><sup>*</sup> Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf Sparnaay.</p>
   </div>
 </div>
-${footer}
+${getFooter()}
 `);
 
 

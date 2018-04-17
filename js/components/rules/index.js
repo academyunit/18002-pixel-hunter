@@ -1,12 +1,11 @@
 import {changeView, getElementFromTemplate} from '../../util';
 import screenGameOne from '../gameOne/index';
-import headerBack from "../../markups/header-back";
-import handleGoBackClick from '../../go-back';
-import footer from "../../markups/footer";
+import getHeader from '../../markups/header';
+import getFooter from "../../markups/footer";
 
 const template = getElementFromTemplate(`
 <header class="header">
-  ${headerBack}
+  ${getHeader({})}
 </header>
 <div class="rules">
   <h1 class="rules__title">Правила</h1>
@@ -24,7 +23,7 @@ const template = getElementFromTemplate(`
     <button class="rules__button  continue" type="submit" disabled>Go!</button>
   </form>
 </div>
-${footer}
+${getFooter()}
 `);
 
 export default () => {
@@ -47,7 +46,6 @@ export default () => {
 
   inputField.addEventListener(`input`, handleInput);
   form.addEventListener(`submit`, handleSubmit);
-  screen.addEventListener(`click`, handleGoBackClick);
 
   return screen;
 };

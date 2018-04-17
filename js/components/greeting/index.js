@@ -1,6 +1,6 @@
 import {changeView, getElementFromTemplate} from '../../util';
 import screenRules from '../rules/index';
-import footer from "../../markups/footer";
+import getFooter from "../../markups/footer";
 
 const template = getElementFromTemplate(`
 <div class="greeting central--blur">
@@ -16,7 +16,7 @@ const template = getElementFromTemplate(`
   </div>
   <div class="greeting__continue"><span><img src="img/arrow_right.svg" width="64" height="64" alt="Next"></span></div>
 </div>
-${footer}
+${getFooter()}
 `);
 
 export default () => {

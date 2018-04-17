@@ -1,20 +1,24 @@
-import {changeView, getElementFromTemplate} from '../../util';
-import headerBack from '../../markups/header-back';
-import headerTimer from '../../markups/header-timer';
-import headerLives from '../../markups/header-lives';
-import footer from '../../markups/footer';
-import currentStats from '../../markups/current-stats';
-import screenGameTwo from '../gameTwo/index';
-import handleGoBackClick from '../../go-back';
+/**
+ * @deprecated
+ *
+ * @todo: game* экраны будут обрабатываться компонентом game.
+ * Нет особого смысла много раз дублировать код, ставляя их.
+ */
 
-const template = getElementFromTemplate(`
+import {changeView, getElementFromTemplate} from '../../util';
+import getHeader from '../../markups/header';
+import getFooter from '../../markups/footer';
+import getStats from '../../markups/stats';
+import screenGameTwo from '../gameTwo/index';
+
+const ANSWERS_REQUIRED = 2;
+
+const getTemplate = ({title, lives, time}) => `
 <header class="header">
-  ${headerBack}
-  ${headerTimer}
-  ${headerLives(3, 2)}
+  ${getHeader({lives, time})}
 </header>
 <div class="game">
-  <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
+  <p class="game__task">${title}Угадайте для каждого изображения фото или рисунок?</p>
   <form class="game__content">
     <div class="game__option">
       <img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">
@@ -39,15 +43,13 @@ const template = getElementFromTemplate(`
       </label>
     </div>
   </form>
-  ${currentStats}
+  ${getStats()}
 </div>
-${footer}
-`);
+${getFooter()}
+`;
 
-export default () => {
-  const ANSWERS_REQUIRED = 2;
-
-  const screen = template.cloneNode(true);
+export default (options = {}) => {
+  const screen = getElementFromTemplate(getTemplate(options));
   const form = screen.querySelector(`.game__content`);
   const answers = Array.from(form.querySelectorAll(`input[type="radio"]`));
 
@@ -61,7 +63,6 @@ export default () => {
   };
 
   form.addEventListener(`change`, handleChange);
-  screen.addEventListener(`click`, handleGoBackClick);
 
   return screen;
 };

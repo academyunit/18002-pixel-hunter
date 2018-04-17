@@ -1,17 +1,19 @@
+/**
+ * @deprecated
+ *
+ * @todo: game* экраны будут обрабатываться компонентом game.
+ * Нет особого смысла много раз дублировать код, ставляя их.
+ */
+
 import {changeView, getElementFromTemplate} from '../../util';
 import screenStats from '../stats/index';
-import handleGoBackClick from '../../go-back';
-import headerTimer from "../../markups/header-timer";
-import headerLives from "../../markups/header-lives";
-import headerBack from "../../markups/header-back";
-import footer from "../../markups/footer";
-import currentStats from "../../markups/current-stats";
+import getHeader from '../../markups/header';
+import getFooter from "../../markups/footer";
+import getStats from "../../markups/stats";
 
-const template = getElementFromTemplate(`
+const getTemplate = ({title, lives, time}) => `
 <header class="header">
-  ${headerBack}
-  ${headerTimer}
-  ${headerLives(3, 2)}
+  ${getHeader({lives: 3, time: 30})}
 </header>
 <div class="game">
   <p class="game__task">Найдите рисунок среди изображений</p>
@@ -26,13 +28,13 @@ const template = getElementFromTemplate(`
       <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
     </div>
   </form>
-  ${currentStats}
+  ${getStats()}
 </div>
-${footer}
-`);
+${getFooter()}
+`;
 
-export default () => {
-  const screen = template.cloneNode(true);
+export default (options = {}) => {
+  const screen = getElementFromTemplate(getTemplate(options));
 
   const form = screen.querySelector(`.game__content`);
   const answers = Array.from(screen.querySelectorAll(`.game__option`));
@@ -53,7 +55,6 @@ export default () => {
   };
 
   form.addEventListener(`click`, handleClick);
-  screen.addEventListener(`click`, handleGoBackClick);
 
   return screen;
 };

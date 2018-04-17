@@ -1,72 +1,61 @@
 /**
- * Похоже, что каким-то образом этот файл должен заменить game-score.js. Как бы, должен стать точкой входа в игру
- * и отвечать за логику игры: смена уровней, текущий state и рендеринг уровней.
+ * @deprecated
  *
+ * @todo:
+ * - проверить еще раз на соответствие state и INIT_GAME из game-config
+ * - удалить этот файол позже. Будет заменен components/game.
  */
+
 import {changeView} from '../util';
 import screenGameOne from '../components/gameOne/index';
 import screenGameTwo from '../components/gameOne/index';
 import screenGameThree from '../components/gameOne/index';
 
 /**
- * Типы игры.
- */
-const GameTypes = {
-  one: screenGameOne(),
-  two: screenGameTwo(),
-  three: screenGameThree()
-};
-
-/**
- * Примерная структура вопросов/ответов. Что думаешь?
- */
-const data = [
-  // По 10 вопросов каждого вида
-  {
-    type: `two`,
-    question: [`https://k42.kn3.net/D2F0370D6.jpg`, `http://i.imgur.com/1KegWPz.jpg`],
-    answer: [`paint`, `photo`]
-  },
-  {
-    type: `two`,
-    question: [`https://k42.kn3.net/D2F0370D6.jpg`, `http://i.imgur.com/1KegWPz.jpg`],
-    answer: [`paint`, `photo`]
-  },
-  // По 10 вопросов каждого вида
-  {
-    type: `one`,
-    question: [`https://k42.kn3.net/CF42609C8.jpg`],
-    answer: [`paint`]
-  },
-  // По 10 вопросов каждого вида
-  {
-    type: `three`,
-    question: [`https://k42.kn3.net/CF42609C8.jpg`, `http://i.imgur.com/DiHM5Zb.jpg`, `http://i.imgur.com/DKR1HtB.jpg`],
-    answer: [`paint`, `photo`, `photo`]
-  }
-];
-
-/**
  * Здесь храним состояние игры
  */
 const state = {
-  gameType: null,
+  /**
+   * текущий экран игры.
+   * В начале проходит через intro - greeting - rules, потом задачет тип игры: gameOne, gameTwo, gameThree
+   */
+  game: 'intro',
+  level: 0, // текуший уровень игры (вопросы от 1 до 10)
   lives: 3,
   time: 0,
-  questions: [],
+  questions: [], // вопросы
   stats: []
 };
 
+
 /**
- * На этом место должна быть логика для:
- * - инициализации и запуска игры
- * - смены уровней (с прогрузкой вопросов в шаблоны HTML)
- * ... ?
- *
+ * @typdef {Object} Question
+ @property {string} imgSrc
+ @property {string} option
+ @property {Answer[]} answers
  */
 
 /**
- * Тут экспортим все нужные нам константы и функции наружу, чтобы можно было их потом заюзать в main.js
+ * @typdef {Object} Answer
+ @property {string} name
+ @property {boolean} isCorrect
  */
+
+/**
+ @type Question
+ */
+const question = {
+  imgSrc: ``,
+  option: ``,
+  answers: [{
+    isCorrect: true,
+    value: ``
+  },
+  {
+    isCorrect: false,
+    value: ``
+  }
+  ]
+};
 
 export {state};

@@ -1,11 +1,10 @@
 import {getElementFromTemplate} from '../../util';
-import headerBack from "../../markups/header-back";
-import handleGoBackClick from '../../go-back';
-import footer from "../../markups/footer";
+import getHeader from '../../markups/header';
+import getFooter from "../../markups/footer";
 
 const template = getElementFromTemplate(`
 <header class="header">
-  ${headerBack}
+  ${getHeader({})}
 </header>
 <div class="result">
   <h1>Победа!</h1>
@@ -107,13 +106,7 @@ const template = getElementFromTemplate(`
     </tr>
   </table>
 </div>
-${footer}
+${getFooter()}
 `);
 
-export default () => {
-  const screen = template.cloneNode(true);
-
-  screen.addEventListener(`click`, handleGoBackClick);
-
-  return screen;
-};
+export default () => template;

@@ -1,11 +1,11 @@
 import {changeView, getElementFromTemplate} from '../../util';
-import screenGameOne from '../gameOne/index';
-import getHeader from '../../markups/header';
-import getFooter from "../../markups/footer";
+import startGame from '../game/index';
+import getHeader from '../header/index';
+import getFooter from '../footer/index';
 
 const template = getElementFromTemplate(`
 <header class="header">
-  ${getHeader({})}
+  ${getHeader()}
 </header>
 <div class="rules">
   <h1 class="rules__title">Правила</h1>
@@ -41,7 +41,7 @@ export default () => {
     event.target.reset();
     submitButton.disabled = true;
 
-    changeView(screenGameOne());
+    changeView(startGame());
   };
 
   inputField.addEventListener(`input`, handleInput);

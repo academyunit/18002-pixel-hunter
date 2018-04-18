@@ -1,4 +1,4 @@
-import {isObject} from '../is';
+import {isObject} from '../../is';
 
 /** Кол-во жизней */
 const LIVES_COUNT = 3;

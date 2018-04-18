@@ -1,22 +1,22 @@
 // Типы игр
-export const GameType = {
+export const TaskType = {
   GUESS_ONE: `game-1`,
   GUESS_TWO: `game-2`,
-  RIGHT_ONE: `game-3`
+  FIND: `game-3`
 };
 
 // Маппер тип игры => заголовок
-const gameTypeToGameTitle = {
-  [GameType.GUESS_ONE]: `Угадайте для каждого изображения фото или рисунок?`,
-  [GameType.GUESS_TWO]: `Угадай, фото или рисунок?`,
-  [GameType.RIGHT_ONE]: `Найдите рисунок среди изображений`
+const TaskTypeToGameTitle = {
+  [TaskType.GUESS_ONE]: `Угадайте для каждого изображения фото или рисунок?`,
+  [TaskType.GUESS_TWO]: `Угадай, фото или рисунок?`,
+  [TaskType.FIND]: `Найдите рисунок среди изображений`
 };
 
 // Список вопросов к играм
 export const QUESTIONS = [
   {
-    type: GameType.GUESS_TWO,
-    title: gameTypeToGameTitle[GameType.GUESS_TWO],
+    type: TaskType.GUESS_TWO,
+    title: TaskTypeToGameTitle[TaskType.GUESS_TWO],
     questions: [
       {
         type: `photo`,
@@ -29,8 +29,8 @@ export const QUESTIONS = [
     ]
   },
   {
-    type: GameType.GUESS_ONE,
-    title: gameTypeToGameTitle[GameType.GUESS_ONE],
+    type: TaskType.GUESS_ONE,
+    title: TaskTypeToGameTitle[TaskType.GUESS_ONE],
     questions: [
       {
         type: `photo`,
@@ -39,8 +39,8 @@ export const QUESTIONS = [
     ]
   },
   {
-    type: GameType.RIGHT_ONE,
-    title: gameTypeToGameTitle[GameType.RIGHT_ONE],
+    type: TaskType.FIND,
+    title: TaskTypeToGameTitle[TaskType.FIND],
     questions: [
       {
         type: `photo`,
@@ -60,8 +60,8 @@ export const QUESTIONS = [
     ]
   },
   {
-    type: GameType.GUESS_TWO,
-    title: gameTypeToGameTitle[GameType.GUESS_TWO],
+    type: TaskType.GUESS_TWO,
+    title: TaskTypeToGameTitle[TaskType.GUESS_TWO],
     questions: [
       {
         type: `photo`,
@@ -74,8 +74,8 @@ export const QUESTIONS = [
     ]
   },
   {
-    type: GameType.GUESS_ONE,
-    title: gameTypeToGameTitle[GameType.GUESS_ONE],
+    type: TaskType.GUESS_ONE,
+    title: TaskTypeToGameTitle[TaskType.GUESS_ONE],
     questions: [
       {
         type: `photo`,
@@ -84,8 +84,8 @@ export const QUESTIONS = [
     ]
   },
   {
-    type: GameType.RIGHT_ONE,
-    title: gameTypeToGameTitle[GameType.RIGHT_ONE],
+    type: TaskType.FIND,
+    title: TaskTypeToGameTitle[TaskType.FIND],
     questions: [
       {
         type: `photo`,
@@ -105,8 +105,8 @@ export const QUESTIONS = [
     ]
   },
   {
-    type: GameType.GUESS_TWO,
-    title: gameTypeToGameTitle[GameType.GUESS_TWO],
+    type: TaskType.GUESS_TWO,
+    title: TaskTypeToGameTitle[TaskType.GUESS_TWO],
     questions: [
       {
         type: `photo`,
@@ -119,8 +119,8 @@ export const QUESTIONS = [
     ]
   },
   {
-    type: GameType.GUESS_TWO,
-    title: gameTypeToGameTitle[GameType.GUESS_TWO],
+    type: TaskType.GUESS_TWO,
+    title: TaskTypeToGameTitle[TaskType.GUESS_TWO],
     questions: [
       {
         type: `photo`,
@@ -133,8 +133,8 @@ export const QUESTIONS = [
     ]
   },
   {
-    type: GameType.GUESS_ONE,
-    title: gameTypeToGameTitle[GameType.GUESS_ONE],
+    type: TaskType.GUESS_ONE,
+    title: TaskTypeToGameTitle[TaskType.GUESS_ONE],
     questions: [
       {
         type: `photo`,
@@ -143,8 +143,8 @@ export const QUESTIONS = [
     ]
   },
   {
-    type: GameType.RIGHT_ONE,
-    title: gameTypeToGameTitle[GameType.RIGHT_ONE],
+    type: TaskType.FIND,
+    title: TaskTypeToGameTitle[TaskType.FIND],
     questions: [
       {
         type: `photo`,

@@ -1,14 +1,14 @@
 // Начальное состояние игры
 export const INITIAL_GAME = {
   task: [],
-  questions: [],
+  tasks: [],
   answers: [],
   lives: 3,
   timer: 30
 };
 
 // Кол-во уолвней в игре
-export const GAME_LEVELS_COUNT = 10;
+export const GAME_ROUNDS_COUNT = 10;
 
 // Начальное время таймера
 export const TIMER_TIME = 30;
@@ -30,5 +30,3 @@ export const AnswerTime = {
   slow: 20,
   fast: 10
 };
-
-

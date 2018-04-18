@@ -1,6 +1,6 @@
 import {changeView, getElementFromTemplate} from '../../util';
 import screenGreeting from '../greeting/index';
-import getFooter from "../../markups/footer";
+import getFooter from '../footer/index';
 
 const template = getElementFromTemplate(`
 <div id="main" class="central__content">

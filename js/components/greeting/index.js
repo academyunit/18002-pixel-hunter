@@ -1,6 +1,6 @@
 import {changeView, getElementFromTemplate} from '../../util';
 import screenRules from '../rules/index';
-import getFooter from "../../markups/footer";
+import getFooter from '../footer/index';
 
 const template = getElementFromTemplate(`
 <div class="greeting central--blur">

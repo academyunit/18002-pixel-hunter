@@ -1,99 +1,176 @@
 import {changeView, getElementFromTemplate} from '../../util';
-import {INITIAL_GAME, TIMER_TIME} from '../../data/game-config';
+import {INITIAL_GAME} from '../../data/game-config';
 import {QUESTIONS, TaskType} from '../../data/structure';
-import {ContentType, Event, Control, getCheckedControls, nextTask, addAnswer, selectImage, die, canContinue} from './util';
 import getHeader from '../header/index';
-import renderQuestions from '../questions/index';
 import getStats from '../stats/index';
 import getScoreBoard from '../scoreBoard/index';
+import renderIntro from '../intro/index';
+import renderGreeting from '../greeting/index';
+import renderRules from '../rules/index';
+import renderGameOne from '../gameOne/index';
+import renderGameTwo from '../gameTwo/index';
+import renderGameThree from '../gameThree/index';
+import renderScoreboard from '../scoreBoard/index';
 
+// тут оставить эту переменную? где бы она лучше всего смотрелась?)
 let game;
 
-const initGame = () => {
-  // грузим вопросы для игры
-  const tasks = [...QUESTIONS];
+class Game {
+  constructor() {
+    this._setDefaultState();
+  }
 
-  // прогружаем их в изначальный state игры
-  game = Object.assign({}, INITIAL_GAME, {
-    task: tasks.pop(),
-    tasks
-  });
-};
+  _setDefaultState() {
+    this.task = null;
+    this.tasks = [...QUESTIONS];
+    this.type = 'intro';
+    this.gameNumber = null;
+    this.answers = [];
+    this.lives = 3;
+    this.timer = 30;
+    this.playerName = '';
+  }
 
+  isOver() {
+    return this.getLives() < 1 || !this.tasks.length;
+  }
 
-const changeGameState = (state) => {
-  /**
-   * 1. получаем из state вопрос
-   * 2. рисуем под него игровой экран (gameOne, gameTwo, gameThree экраны больше не нужны)
-   * 3. рисуем ответы в форме
-   * 4. Вешаем обработчик на форму (выбор ответа в форме)
-   * 5. Проверяем как-то
-   * 6. Кладем результат ответа на вопрос в state (при это отнимаем жизнь, если ответ неверный)
-   * 7. Проверяем можно ли идти дальше (есть ли жизни  вопросы)
-   * 8. Повторяем...
-   */
-
-    // Получение Задания
-  const {task, answers, timer} = state;
-  const {type, title, questions} = task;
-
-  console.log(state);
-
-  // Создаем игровой экран
-  const screen = getElementFromTemplate(
-    `${getHeader(state)}
-      <div class='game'>
-          <p class='game__task'>${title}</p>
-          <form class='game__content ${ContentType[type] || ``}'>
-            ${renderQuestions(questions)}
-          </form>
-          <div class='stats'>
-            ${getStats(answers)}
-          </div>
-        </div>`
-  );
-
-  const content = screen.querySelector(`.game__content`);
-  const answerControls = Array.from(screen.querySelectorAll(Control[type]));
-
-  console.log('type', type);
-  content.addEventListener(Event[type], (e) => {
-    const checkedAnswerControls = getCheckedControls(answerControls);
-
-    if (!checkedAnswerControls.length || ((type === TaskType.GUESS_TWO)
-        && checkedAnswerControls.length !== 2)) {
-      return;
+  getLevel() {
+    return {
+      type: this.type,
+      gameNumber: this.gameNumber,
+      task: this.task
     }
+  }
 
-    let correctAnswer;
+  setLevel({type, task, gameNumber = 0}) {
+    if (type) {
+      this.type = type;
+    }
+    if (task) {
+      this.task = task;
+    }
+    if (gameNumber) {
+      this.gameNumber = gameNumber;
+    }
+  }
 
-    if (type === TaskType.FIND) {
-      correctAnswer = selectImage(e);
-    } else {
-      correctAnswer = questions.every((question, i) => {
-        return question.type === checkedAnswerControls[i].value;
+  addAnswer(isCorrect) {
+    this.answers.push({
+      isCorrect,
+      time: this.timer
+    });
+
+    if (!isCorrect) {
+      this.lives--;
+    }
+  }
+
+  addPlayerName(name) {
+    this.playerName = name;
+  }
+
+  changeLevel() {
+    if (this.isOver()) {
+      this.setLevel({
+        type: 'scoreboard'
       });
+
+      return this.getLevel();
     }
 
-    if (!correctAnswer) {
-      state = die(state);
+    const newScreenType = this.getNextScreenType();
+    let newTask;
+    let newGameNumber = 0;
+
+    if (newScreenType === 'game') {
+      newTask = this.tasks.pop();
+      newGameNumber = newTask.type;
     }
 
-    state = addAnswer(state, {isCorrect: correctAnswer, time: TIMER_TIME - timer});
+    this.setLevel({
+      type: newScreenType,
+      task: newTask,
+      gameNumber: newGameNumber
+    });
 
-    if (canContinue(state)) {
-      changeView(changeGameState(nextTask(state)));
-    } else {
-      changeView(getScoreBoard(state));
+    return this.getLevel();
+  }
+
+  getNextScreenType() {
+    switch(this.type) {
+      case `intro`:
+        return `greeting`;
+      case `greeting`:
+        return `rules`;
+      case `rules`:
+        return `game`;
+      case `game`:
+        return `game`;
     }
-  });
+  }
 
-  // Возвращаем игровой экран
-  return screen;
+  getLives() {
+    return this.lives;
+  };
+
+  resetTimer() {
+    this.timer = 0;
+  }
+
+  reset() {
+    this._setDefaultState();
+  }
+}
+
+// это ок что эта функция тут лежит?
+export const renderScreen = (handler) => {
+  if (handler === 'back') {
+    game.reset();
+    changeView(renderIntro(game));
+    return;
+  }
+
+  let gameScreen;
+  const {type, gameNumber} = game.getLevel();
+
+  switch(type) {
+    case 'intro':
+      gameScreen = renderIntro(game);
+      break;
+    case 'greeting':
+      gameScreen = renderGreeting(game);
+      break;
+    case 'rules':
+      gameScreen = renderRules(game);
+      break;
+    case 'game':
+      if (gameNumber === 'game-1') {
+        gameScreen = renderGameOne(game);
+      }
+      if (gameNumber === 'game-2') {
+        gameScreen = renderGameTwo(game);
+      }
+      if (gameNumber === 'game-3') {
+        gameScreen = renderGameThree(game);
+      }
+      break;
+    case 'scoreboard':
+      gameScreen = renderScoreboard(game);
+      break;
+  }
+
+  changeView(gameScreen);
 };
 
-export default () => {
-  initGame();
+/**
+ * и нуждаемся ли мы в этой функции ? может просто вызывать создавать игру и потом рендерить экран?
+ * или с ней красивее выглядит? )
+ */
+export const initGame = () => {
+  game = new Game();
 
-  return changeGameState(game);
+  renderScreen(game);
+
+  return game;
 };

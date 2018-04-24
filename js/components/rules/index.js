@@ -1,5 +1,5 @@
-import {changeView, getElementFromTemplate} from '../../util';
-import startGame from '../game/index';
+import {getElementFromTemplate} from '../../util';
+import {renderScreen} from '../game/index';
 import getHeader from '../header/index';
 import getFooter from '../footer/index';
 
@@ -26,7 +26,7 @@ const template = getElementFromTemplate(`
 ${getFooter()}
 `);
 
-export default () => {
+export default (game) => {
   const screen = template.cloneNode(true);
 
   const form = screen.querySelector(`.rules__form`);
@@ -38,10 +38,13 @@ export default () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    event.target.reset();
     submitButton.disabled = true;
 
-    changeView(startGame());
+    game.addPlayerName(inputField.value);
+    game.changeLevel();
+    renderScreen(game);
+
+    event.target.reset();
   };
 
   inputField.addEventListener(`input`, handleInput);

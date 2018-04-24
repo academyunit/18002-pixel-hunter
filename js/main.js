@@ -11,11 +11,12 @@
  */
 
 import {changeView} from './util';
+import {initGame} from './components/game/index';
 import screenIntro from './components/intro/index';
+import {renderScreen} from './components/game/index';
 
 document.addEventListener(`DOMContentLoaded`, () => {
-  // Подгрузка первого экрана после загрузки DOM'a
-  changeView(screenIntro());
+  initGame();
 
   // Обработчик кнопки "Назад"
   document.addEventListener(`click`, (e) => {
@@ -25,6 +26,6 @@ document.addEventListener(`DOMContentLoaded`, () => {
       return;
     }
 
-    changeView(screenIntro());
+    renderScreen('back');
   });
 });

@@ -22,7 +22,7 @@ export default (state) => {
   const {answers, lives} = state;
 
   // Определяем победа или поражение
-  const isWin = answers.length === GAME_ROUNDS_COUNT;
+  const isWin = answers.length >= GAME_ROUNDS_COUNT;
 
   // Получаем список быстрых ответов
   const fastAnswers = answers.filter((answer) => {
@@ -40,10 +40,7 @@ export default (state) => {
   });
 
   // Сопоставление результата и заголовка
-  const resultToTitle = {
-    [true]: `Победа!`,
-    [false]: `Поражение!`
-  };
+  const resultToTitle = (isWin) ? `Победа!` : `Поражение!`;
 
   // Список бонусов
   const bonusList = [
@@ -66,11 +63,14 @@ export default (state) => {
       points: slowAnswers.length * AnswerPoint.fine
     }
   ];
+  const gameResultText = isWin ? correctAnswers.length * AnswerPoint.default : `FAIL`;
+  const bonusListText = isWin ? renderBonusList(bonusList) : ``;
+  const totalGameScore = isWin ? calculateTotalGameScore(answers, lives) : ``;
 
-  const element = getElementFromTemplate(
+  return getElementFromTemplate(
     `${renderHeader()}
         <div class='result'>
-          <h1>${resultToTitle[isWin]}</h1>
+          <h1>${resultToTitle}</h1>
           <table class='result__table'>
             <tr>
               <td class='result__number'>1.</td>
@@ -78,16 +78,13 @@ export default (state) => {
                 ${renderStats(answers)}
               </td>
               <td class='result__points'>${isWin ? `×&nbsp;100` : ``}</td>
-              <td class='result__total ${!isWin ? `result__total--final` : ``}'>${isWin ? correctAnswers.length * AnswerPoint.default : `FAIL`}</td>
+              <td class='result__total ${!isWin ? `result__total--final` : ``}'>${gameResultText}</td>
             </tr>
-            ${isWin ? renderBonusList(bonusList) : ``}
+            ${bonusListText}
             <tr>
-              <td colspan='5' class='result__total  result__total--final'>${isWin ? calculateTotalGameScore(answers, lives) : ``}</td>
+              <td colspan='5' class='result__total  result__total--final'>${totalGameScore}</td>
             </tr>
           </table>
         </div>`
   );
-
-  // Возвращаем dom - элементы
-  return element;
 };

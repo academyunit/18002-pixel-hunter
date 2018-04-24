@@ -7,9 +7,17 @@ export const INITIAL_GAME = {
   timer: 30
 };
 
+/**
+ * @deprecated
+ * удалить это отсюда потом
+ */
 // Кол-во уолвней в игре
 export const GAME_ROUNDS_COUNT = 10;
 
+/**
+ * @deprecated
+ * удалить это отсюда потом
+ */
 // Начальное время таймера
 export const TIMER_TIME = 30;
 

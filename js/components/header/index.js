@@ -5,7 +5,6 @@ const drawHeart = (full) => {
 };
 
 const renderContentWithData = ({timer, lives}) => {
-  console.log(Life.count, lives);
   return `<h1 class='game__timer'>${timer}</h1>
           <div class='game__lives'>
             ${new Array(Life.count - lives).fill(drawHeart(false)).join(``)}

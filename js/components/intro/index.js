@@ -1,4 +1,5 @@
-import {changeView, getElementFromTemplate} from '../../util';
+import {getElementFromTemplate} from '../../util';
+import {renderScreen} from '../game/index';
 import screenGreeting from '../greeting/index';
 import getFooter from '../footer/index';
 
@@ -13,12 +14,13 @@ ${getFooter()}
 `);
 
 
-export default () => {
+export default (game) => {
   const screen = template.cloneNode(true);
 
   const handleClick = (event) => {
     if (event.target.className === `intro__asterisk`) {
-      changeView(screenGreeting());
+      game.changeLevel();
+      renderScreen(game);
     }
   };
 

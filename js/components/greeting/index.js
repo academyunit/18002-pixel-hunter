@@ -1,5 +1,5 @@
-import {changeView, getElementFromTemplate} from '../../util';
-import screenRules from '../rules/index';
+import {getElementFromTemplate} from '../../util';
+import {renderScreen} from '../game/index';
 import getFooter from '../footer/index';
 
 const template = getElementFromTemplate(`
@@ -19,7 +19,7 @@ const template = getElementFromTemplate(`
 ${getFooter()}
 `);
 
-export default () => {
+export default (game) => {
   const screen = template.cloneNode(true);
 
   const handleClick = (event) => {
@@ -27,8 +27,8 @@ export default () => {
     if (!target) {
       return;
     }
-
-    changeView(screenRules());
+    game.changeLevel();
+    renderScreen(game);
   };
 
   screen.addEventListener(`click`, handleClick);

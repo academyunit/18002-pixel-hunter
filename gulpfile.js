@@ -53,7 +53,7 @@ gulp.task('test', function () {
     .pipe(mocha({
       ui: 'tdd',
       compilers: ['js:babel-register'], // Включим поддержку "import/export" в Mocha тестах
-      reporter: 'nyan'       // Вид в котором я хочу отображать результаты тестирования
+      reporter: 'spec'       // Вид в котором я хочу отображать результаты тестирования
     }));
 });
 

@@ -1,7 +1,17 @@
-import {ScreenName} from './screens';
-import renderStageScreen from './render-screen';
+import {initGame} from './components/game/index';
+import {renderScreen} from './components/game/index';
 
-/**
- * Рендер сцены и экрана на ней.
- */
-renderStageScreen(ScreenName.INTRO);
+document.addEventListener(`DOMContentLoaded`, () => {
+  initGame();
+
+  // Обработчик кнопки "Назад"
+  document.addEventListener(`click`, (e) => {
+    const goBackButton = e.target.closest(`.back`);
+
+    if (!goBackButton) {
+      return;
+    }
+
+    renderScreen(`back`);
+  });
+});

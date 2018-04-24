@@ -45,6 +45,11 @@
 
   text-align: center;
   vertical-align: middle;
+
+  img {
+    width: 410px;
+    height: 520px;
+  }
 }
 
 .game__answer input {
@@ -110,6 +115,11 @@
   .game__answer--paint {
     right: -100px;
   }
+
+  img {
+    width: 468px;
+    height: 458px;
+  }
 }
 
 .game__content--triple .game__option {
@@ -134,6 +144,11 @@
     height: 100%;
 
     background-color: rgba(223, 78, 78, 0.4);
+  }
+
+  img {
+    width: 304px;
+    height: 455px;
   }
 
 }

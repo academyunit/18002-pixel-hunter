@@ -28,5 +28,7 @@ const getStatItem = ({isCorrect, time} = {}) => {
 };
 
 export default (answers = []) => {
-  return [...answers, ...(new Array(GAME_ROUNDS_COUNT - answers.length))].map(getStatItem).join(``);
+  const items = [...answers, ...(new Array(GAME_ROUNDS_COUNT - answers.length))].map(getStatItem).join(``);
+
+  return `<ul class="stats">${items}</ul>`;
 };

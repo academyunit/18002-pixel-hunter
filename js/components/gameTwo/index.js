@@ -5,7 +5,7 @@ import getHeader from '../header/index';
 import getFooter from '../footer/index';
 import getStats from '../stats/index';
 
-const getTemplate = ({task: {questions}}, ...rest) => `
+const getTemplate = ({task: {questions}, ...rest}) => `
 <header class="header">
   ${getHeader(rest)}
 </header>

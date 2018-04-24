@@ -7,7 +7,7 @@ import getStats from '../stats/index';
 
 const ANSWERS_REQUIRED = 2;
 
-const getTemplate = ({task: {questions}}, ...rest) => `
+const getTemplate = ({task: {questions}, ...rest}) => `
 <header class="header">
   ${getHeader(rest)}
 </header>

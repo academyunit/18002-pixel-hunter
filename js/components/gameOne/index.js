@@ -4,11 +4,10 @@ import renderQuestions from '../questions/index';
 import getHeader from '../header/index';
 import getFooter from '../footer/index';
 import getStats from '../stats/index';
-import renderGameTwo from '../gameTwo/index';
 
 const ANSWERS_REQUIRED = 2;
 
-const getTemplate = ({task: {questions}, ...rest}) => `
+const getTemplate = ({task: {questions}}, ...rest) => `
 <header class="header">
   ${getHeader(rest)}
 </header>

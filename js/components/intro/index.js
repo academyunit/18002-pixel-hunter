@@ -1,6 +1,5 @@
 import {getElementFromTemplate} from '../../util';
 import {renderScreen} from '../game/index';
-import screenGreeting from '../greeting/index';
 import getFooter from '../footer/index';
 
 const template = getElementFromTemplate(`

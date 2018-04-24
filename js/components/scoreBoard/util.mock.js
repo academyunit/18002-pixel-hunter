@@ -1,4 +1,4 @@
-import {ANSWERS_COUNT, ANSWER_TIME} from './game-score';
+import {ANSWERS_COUNT, ANSWER_TIME} from './util';
 
 export const LIFE = {
   max: 3,

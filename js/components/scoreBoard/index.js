@@ -68,7 +68,7 @@ export default (state) => {
   const totalGameScore = isWin ? calculateTotalGameScore(answers, lives) : ``;
 
   return getElementFromTemplate(
-    `${renderHeader()}
+      `${renderHeader()}
         <div class='result'>
           <h1>${resultToTitle}</h1>
           <table class='result__table'>

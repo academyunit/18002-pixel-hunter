@@ -12,7 +12,7 @@ const renderContentWithData = ({timer, lives}) => {
           </div>`;
 };
 
-export default (data) => {
+export default (game) => {
   return `<header class='header'>
             <div class='header__back'>
               <button class='back'>
@@ -20,6 +20,6 @@ export default (data) => {
                 <img src='img/logo_small.svg' width='101' height='44'>
               </button>
             </div>
-            ${data ? renderContentWithData(data) : ``}
+            ${game ? renderContentWithData(game) : ``}
           </header>`;
 };

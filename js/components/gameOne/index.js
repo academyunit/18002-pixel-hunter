@@ -1,29 +1,12 @@
-import {getElementFromTemplate} from '../../util';
+import GameOneView from './game-one-view';
 import {renderScreen} from '../game/index';
-import renderQuestions from '../questions/index';
-import getHeader from '../header/index';
-import getFooter from '../footer/index';
-import getStats from '../stats/index';
 
 const ANSWERS_REQUIRED = 2;
 
-const getTemplate = ({task: {questions}, ...rest}) => `
-<header class="header">
-  ${getHeader(rest)}
-</header>
-<div class="game">
-  <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
-  <form class="game__content">
-    ${renderQuestions(questions)}
-  </form>
-  ${getStats()}
-</div>
-${getFooter()}
-`;
-
 export default (game) => {
-  const screen = getElementFromTemplate(getTemplate(game));
-  const form = screen.querySelector(`.game__content`);
+  const view = new GameOneView(game);
+
+  const form = view.element.querySelector(`.game__content`);
   const answers = Array.from(form.querySelectorAll(`input[type="radio"]`));
   const answer1 = Array.from(form.querySelectorAll(`input[name="question1"]`));
   const answer2 = Array.from(form.querySelectorAll(`input[name="question2"]`));
@@ -37,7 +20,7 @@ export default (game) => {
     return checkAnswer(answer1, questions[0].type) && checkAnswer(answer2, questions[1].type);
   };
 
-  const handleChange = () => {
+  view.onChange = () => {
     if (!isAnswered()) {
       return;
     }
@@ -46,7 +29,5 @@ export default (game) => {
     renderScreen(game);
   };
 
-  form.addEventListener(`change`, handleChange);
-
-  return screen;
+  return view.element;
 };

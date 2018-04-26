@@ -1,30 +1,16 @@
-import {getElementFromTemplate} from '../../util';
+import GameTwoView from './game-two-view';
 import {renderScreen} from '../game/index';
-import renderQuestions from '../questions/index';
-import getHeader from '../header/index';
-import getFooter from '../footer/index';
-import getStats from '../stats/index';
-
-const getTemplate = ({task: {questions}, ...rest}) => `
-<header class="header">
-  ${getHeader(rest)}
-</header>
-<div class="game">
-  <p class="game__task">Угадай, фото или рисунок?</p>
-  <form class="game__content  game__content--wide">
-    ${renderQuestions(questions)}
-  </form>
-  ${getStats()}
-</div>
-${getFooter()}
-`;
 
 export default (game) => {
-  const screen = getElementFromTemplate(getTemplate(game));
+  const view = new GameTwoView(game);
 
-  const form = screen.querySelector(`.game__content`);
+  const form = view.element.querySelector(`.game__content`);
   const answers = Array.from(form.querySelectorAll(`input[type="radio"]`));
 
+  /**
+   * Есть ли смысл убрать функции вне export'a ? Чтобы каждый раз не создавать их.
+   * С другой стороны, если это сделать - придется передавать им параметры и будет не так красиво уже.
+   */
   const isAnswered = () => answers.some((answer) => answer.checked);
   const isSelectedAnswerCorrect = () => {
     const {task: {questions}} = game.getLevel();
@@ -39,7 +25,7 @@ export default (game) => {
     return false;
   };
 
-  const handleChange = () => {
+  view.onChange = () => {
     if (!isAnswered()) {
       return;
     }
@@ -50,7 +36,5 @@ export default (game) => {
     renderScreen(game);
   };
 
-  form.addEventListener(`change`, handleChange);
-
-  return screen;
+  return view.element;
 };

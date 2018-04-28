@@ -11,7 +11,7 @@ export const INITIAL_GAME = {
  * @deprecated
  * удалить это отсюда потом
  */
-// Кол-во уолвней в игре
+// Кол-во уровней в игре
 export const GAME_ROUNDS_COUNT = 10;
 
 /**

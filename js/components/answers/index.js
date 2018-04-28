@@ -1,3 +1,6 @@
+/**
+ * см. questions/index
+ */
 const answerTypeToAnswerName = {
   'photo': `Фото`,
   'paint': `Рисунок`

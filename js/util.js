@@ -10,16 +10,28 @@ const stage = document.querySelector(`.central`);
  */
 export const getElementFromTemplate = (template = ``, tagName = `div`) => {
   const container = document.createElement(tagName);
-  container.innerHTML = template;
+  container.innerHTML = template.trim();
 
   return container;
 };
 
 /**
- * Изменить текущий View.
+ * Изменить View.
+ *
  * @param {Node} view
  */
 export const changeView = (view) => {
   stage.innerHTML = ``;
   stage.appendChild(view);
+};
+
+/**
+ * Обновить View.
+ *
+ * @param {Node} parent
+ * @param {Object} view
+ */
+export const updateView = (parent, view) => {
+  parent.innerHTML = ``;
+  parent.appendChild(view);
 };

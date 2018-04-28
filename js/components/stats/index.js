@@ -1,3 +1,6 @@
+/**
+ * Вот эта штука не тянет же на отдельную вьюху, да и как ее потом вставлять в другие вьюхи?
+ */
 import {AnswerTime, GAME_ROUNDS_COUNT} from '../../data/game-config';
 
 const StatusState = {

@@ -1,4 +1,8 @@
-export default () => `<footer class="footer">
+import AbstractView from '../views/abstract-view';
+
+export default class FooterView extends AbstractView {
+  get template() {
+    return `<footer class="footer">
         <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
         <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
         <div class="footer__social-links">
@@ -8,3 +12,5 @@ export default () => `<footer class="footer">
           <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
         </div>
       </footer>`;
+  }
+}

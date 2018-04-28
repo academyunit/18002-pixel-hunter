@@ -1,4 +1,6 @@
-import {changeView} from '../../util';
+import {changeView, updateView, getElementFromTemplate} from '../../util';
+import HeaderView from '../header/index';
+import FooterView from '../footer/index';
 import {QUESTIONS} from '../../data/structure';
 import renderIntro from '../intro/index';
 import renderGreeting from '../greeting/index';
@@ -10,6 +12,17 @@ import renderScoreboard from '../scoreBoard/index';
 
 // тут оставить эту переменную? где бы она лучше всего смотрелась?)
 let game;
+
+const gameContainer = getElementFromTemplate();
+
+const headerContainer = getElementFromTemplate();
+const footerContainer = new FooterView().element;
+const gameScreenContainer = getElementFromTemplate();
+
+// собираем наш игровой экран
+gameContainer.appendChild(headerContainer);
+gameContainer.appendChild(gameScreenContainer);
+gameContainer.appendChild(footerContainer);
 
 class Game {
   constructor() {
@@ -130,6 +143,7 @@ export const renderScreen = (handler) => {
   }
 
   let gameScreen;
+  let header = getElementFromTemplate(); // hack
   const {type, gameNumber} = game.getLevel();
 
   switch (type) {
@@ -143,6 +157,8 @@ export const renderScreen = (handler) => {
       gameScreen = renderRules(game);
       break;
     case `game`:
+      header = new HeaderView(game).element;
+
       if (gameNumber === `game-1`) {
         gameScreen = renderGameOne(game);
       }
@@ -154,23 +170,23 @@ export const renderScreen = (handler) => {
       }
       break;
     case `scoreboard`:
+      header = new HeaderView(game).element;
       gameScreen = renderScoreboard(game);
       break;
   }
+  // Обновляем хедер
+  updateView(headerContainer, header);
+  // Сам игровой экран
+  updateView(gameScreenContainer, gameScreen);
 
-  changeView(gameScreen);
+  // Рендерим нашу вьюху из собранных частей
+  changeView(gameContainer);
 };
 
-/**
- * и нуждаемся ли мы в этой функции ? может просто вызывать создавать игру и потом рендерить экран?
- * или с ней красивее выглядит? )
- *
- * @return {Object}
- */
 export const initGame = () => {
   game = new Game();
 
-  renderScreen(game);
+  window.game = game;
 
-  return game;
+  renderScreen(game);
 };

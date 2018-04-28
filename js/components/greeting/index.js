@@ -2,13 +2,9 @@ import GreetingView from './greeting-view';
 import {renderScreen} from '../game/index';
 
 export default (game) => {
-  const view = new GreetingView(game);
+  const view = new GreetingView();
 
-  view.onClick = (event) => {
-    const target = event.target.closest(`.greeting__continue`);
-    if (!target) {
-      return;
-    }
+  view.onClick = () => {
     game.changeLevel();
     renderScreen(game);
   };

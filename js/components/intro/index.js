@@ -4,11 +4,9 @@ import {renderScreen} from '../game/index';
 export default (game) => {
   const view = new IntroView();
 
-  view.onClick = (event) => {
-    if (event.target.className === `intro__asterisk`) {
-      game.changeLevel();
-      renderScreen(game);
-    }
+  view.onClick = () => {
+    game.changeLevel();
+    renderScreen(game);
   };
 
   return view.element;

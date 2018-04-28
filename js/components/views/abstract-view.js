@@ -1,39 +1,28 @@
 import {getElementFromTemplate} from '../../util';
-import getFooter from '../footer/index';
 
 export default class AbstractView {
-  // Игру будем через конструктор передавать во вьюху?)
-  constructor(game) {
-    this.game = game;
+
+  constructor() {
+    if (new.target === AbstractView) {
+      throw new Error(`Cannot create an instance from an AbstractView class!`);
+    }
   }
 
   get template() {
-    throw new Error('This method must be overwritten in a child class!');
+    throw new Error(`This method must be overwritten in a child class!`);
   }
 
-  /**
-   * Или я не так понял задание или это они так странно решили сделать.
-   * На мой взгляд, гораздо логичнее дергать render() при отдаче готового контента, чем element.
-   *
-   * new View().render() вместо new View().element
-   *
-   * Что думаешь?
-   */
   get element() {
     if (!this._element) {
       this._element = this.render();
-      this.bind();
+      this.bind(this._element);
     }
 
     return this._element;
   }
 
   render() {
-    const template = `
-    ${this.template}
-    ${getFooter()}
-    `;
-    return getElementFromTemplate(template);
+    return getElementFromTemplate(this.template);
   }
 
   bind() {

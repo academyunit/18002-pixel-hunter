@@ -1,17 +1,15 @@
 import AbstractView from '../views/abstract-view';
-import renderHeader from '../header/index';
 import renderStats from '../stats/index';
 
 export default class ScoreBoardView extends AbstractView {
 
-  setData({isWin, answers, gameResultText, totalGameScore, bonusList}) {
+  constructor({isWin, answers, gameResultText, totalGameScore, bonusList}) {
+    super();
     this.isWin = isWin;
     this.answers = answers;
     this.gameResultText = gameResultText;
     this.totalGameScore = totalGameScore;
     this.bonusList = bonusList;
-
-    return this;
   }
 
   get template() {
@@ -23,7 +21,6 @@ export default class ScoreBoardView extends AbstractView {
     const totalResultClass = !this.isWin ? `result__total--final` : ` `;
 
     return `
-      ${renderHeader()}
           <div class='result'>
             <h1>${resultToTitle}</h1>
             <table class='result__table'>
@@ -45,7 +42,7 @@ export default class ScoreBoardView extends AbstractView {
   }
 
   // Отрисовывает бoнусы
-  renderBonusList () {
+  renderBonusList() {
     return this.bonusList.map((it) => {
       return `<tr>
               <td></td>
@@ -55,5 +52,5 @@ export default class ScoreBoardView extends AbstractView {
               <td class='result__total'>${it.points}</td>
             </tr>`;
     }).join(``);
-  };
+  }
 }

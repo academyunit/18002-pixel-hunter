@@ -1,11 +1,12 @@
 import ScoreBoardView from './score-board-view';
-import {getElementFromTemplate} from '../../util';
 import {calculateTotalGameScore} from './util';
 import {Life, AnswerPoint, GAME_ROUNDS_COUNT, AnswerTime} from '../../data/game-config';
 
+// @todo: сделать чтобы все из game приходило
+
 // Отрисовка общей статистики
 export default (game) => {
- const {answers, lives} = game;
+  const {answers, lives} = game;
 
   // Определяем победа или поражение
   const isWin = answers.length >= GAME_ROUNDS_COUNT;
@@ -47,7 +48,6 @@ export default (game) => {
     }
   ];
 
-  // оставил это тут, потому что ко View отношение это не имеет
   const gameResultText = isWin ? correctAnswers.length * AnswerPoint.default : `FAIL`;
   const totalGameScore = isWin ? calculateTotalGameScore(answers, lives) : ``;
 
@@ -59,5 +59,5 @@ export default (game) => {
     bonusList
   };
 
-  return (new ScoreBoardView(game)).setData(data).element;
+  return new ScoreBoardView(data).element;
 };

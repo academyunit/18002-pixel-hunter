@@ -1,6 +1,7 @@
 import AbstractView from '../views/abstract-view';
 
 export default class GreetingView extends AbstractView {
+
   get template() {
     return `
     <div class="greeting central--blur">
@@ -20,10 +21,15 @@ export default class GreetingView extends AbstractView {
   }
 
   bind() {
-    this._element.addEventListener('click', (event) => {
+    this._element.addEventListener(`click`, (event) => {
       event.preventDefault();
 
-      this.onClick(event);
+      const target = event.target.closest(`.greeting__continue`);
+      if (!target) {
+        return;
+      }
+
+      this.onClick();
     });
-  };
+  }
 }

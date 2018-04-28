@@ -4,19 +4,13 @@ import {renderScreen} from '../game/index';
 export default (game) => {
   const view = new RulesView(game);
 
-  view.onInput = (event) => {
-    view.submitButton.disabled = !event.target.value;
-  };
-
-  view.onSubmit = (event) => {
-    event.preventDefault();
-    view.submitButton.disabled = true;
-
-    game.addPlayerName(view.inputField.value);
-    game.changeLevel();
-    renderScreen(game);
-
+  view.onSubmitName = (name) => {
     event.target.reset();
+
+    game.addPlayerName(name);
+    game.changeLevel();
+
+    renderScreen(game);
   };
 
   return view.element;

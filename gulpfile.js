@@ -38,8 +38,12 @@ gulp.task('style', function () {
     .pipe(gulp.dest('build/css'));
 });
 
+const srcList = [
+  'js/**/*.js',
+  'js/**/*/index.js'
+];
 gulp.task('scripts', function () {
-  return gulp.src('js/**/*.js')
+  return gulp.src(srcList)
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(rollup({}, 'iife'))

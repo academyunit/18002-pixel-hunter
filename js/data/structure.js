@@ -13,7 +13,7 @@ const TaskTypeToGameTitle = {
 };
 
 // Список вопросов к играм
-export const QUESTIONS = [
+export const levels = [
   {
     type: TaskType.GAME_TWO,
     title: TaskTypeToGameTitle[TaskType.GAME_TWO],

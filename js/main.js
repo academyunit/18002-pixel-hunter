@@ -1,3 +1,3 @@
-import {initGame} from './components/game/index';
+import Application from './application';
 
-document.addEventListener(`DOMContentLoaded`, initGame);
+document.addEventListener(`DOMContentLoaded`, Application.showIntro);

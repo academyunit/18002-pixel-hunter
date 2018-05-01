@@ -1,3 +1,6 @@
+/**
+ * @todo: разобраться с константами тут и что куда испортится, положить все в одно место
+ */
 import {ANSWERS_COUNT, ANSWER_TIME} from './util';
 
 export const LIFE = {

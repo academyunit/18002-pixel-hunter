@@ -1,22 +1,16 @@
 import AbstractView from '../views/abstract-view';
-import renderQuestions from '../questions/index';
-import getStats from '../stats/index';
+import renderQuestions from '../util/questions';
 
 export default class GameThreeView extends AbstractView {
 
-  /**
-   * Одинаковый конструктор дублируется в игровых вьюхах (GameXXXView). Может создать GameView с ним и отнаследоваться от нее?
-   * Будет такое наследование: GameThreeView - GameView - AbstractView
-   *
-   * @param {Object} game
-   */
-  constructor(game) {
+  constructor(level, statsBar) {
     super();
-    this.game = game;
+    this.level = level;
+    this.statsBar = statsBar;
   }
 
   get template() {
-    const {task: {questions}} = this.game;
+    const {questions} = this.level;
 
     return `
     <div class="game">
@@ -24,19 +18,19 @@ export default class GameThreeView extends AbstractView {
       <form class="game__content  game__content--triple">
         ${renderQuestions(questions)}
       </form>
-      ${getStats()}
+      ${this.statsBar}
     </div>
     `;
   }
 
   bind() {
-    const form = this._element.querySelector(`.game__content`);
+    const form = this.element.querySelector(`.game__content`);
     const answers = Array.from(form.querySelectorAll(`.game__option`));
 
     const resetAnswers = () => answers.forEach((answer) => answer.classList.remove(`game__option--selected`));
     const setAnswer = (answer) => answer.classList.add(`game__option--selected`);
     const isSelectedAnswerCorrect = (answer) => {
-      const {task: {questions}} = this.game.getLevel();
+      const {questions} = this.level;
 
       // Ищем правильный ответ в нашей структуре
       let questionIndex = -1;
@@ -62,9 +56,9 @@ export default class GameThreeView extends AbstractView {
       resetAnswers();
       setAnswer(answer);
 
-      this.onClick(isSelectedAnswerCorrect(answer));
+      this.onAnswer(isSelectedAnswerCorrect(answer));
     });
   }
 
-  onClick() {}
+  onAnswer() {}
 }

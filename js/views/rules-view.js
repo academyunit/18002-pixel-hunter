@@ -1,4 +1,5 @@
 import AbstractView from '../views/abstract-view';
+import Application from '../application';
 
 export default class RulesView extends AbstractView {
   constructor(game) {
@@ -28,7 +29,7 @@ export default class RulesView extends AbstractView {
   }
 
   bind() {
-    const form = this._element.querySelector(`.rules__form`);
+    const form = this.element.querySelector(`.rules__form`);
     const inputField = form.querySelector(`.rules__input`);
     const submitButton = form.querySelector(`.rules__button`);
 
@@ -43,9 +44,7 @@ export default class RulesView extends AbstractView {
 
       submitButton.disabled = true;
 
-      this.onSubmitName(inputField.value);
+      Application.showGame(inputField.value);
     });
   }
-
-  onSubmitName() {}
 }

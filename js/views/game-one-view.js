@@ -1,16 +1,16 @@
 import AbstractView from '../views/abstract-view';
-import renderQuestions from '../questions/index';
-import getStats from '../stats/index';
+import renderQuestions from '../util/questions';
 
 export default class GameOneView extends AbstractView {
 
-  constructor(game) {
+  constructor(level, statsBar) {
     super();
-    this.game = game;
+    this.level = level;
+    this.statsBar = statsBar;
   }
 
   get template() {
-    const {task: {questions}} = this.game;
+    const {questions} = this.level;
 
     return `
       <div class="game">
@@ -18,15 +18,18 @@ export default class GameOneView extends AbstractView {
         <form class="game__content">
           ${renderQuestions(questions)}
         </form>
-        ${getStats()}
+        ${this.statsBar}
       </div>
     `;
   }
 
+  /**
+   * @todo: спросить Леонида как избавиться от порнографии снизу тут и в остальных вьюхах - как эффективнее всего с контролами работать... :)
+   */
   bind() {
     const ANSWERS_REQUIRED = 2;
 
-    const form = this._element.querySelector(`.game__content`);
+    const form = this.element.querySelector(`.game__content`);
     const answers = Array.from(form.querySelectorAll(`input[type="radio"]`));
     const answer1 = Array.from(form.querySelectorAll(`input[name="question1"]`));
     const answer2 = Array.from(form.querySelectorAll(`input[name="question2"]`));
@@ -35,7 +38,7 @@ export default class GameOneView extends AbstractView {
     const checkAnswer = (answer, correctValue) => answer.findIndex((control) => control.checked && control.value === correctValue) > -1;
     const isAnswered = () => answers.filter((answer) => answer.checked).length === ANSWERS_REQUIRED;
     const isCorrectAnswer = () => {
-      const {task: {questions}} = this.game.getLevel();
+      const {questions} = this.level;
 
       return checkAnswer(answer1, questions[0].type) && checkAnswer(answer2, questions[1].type);
     };
@@ -47,9 +50,9 @@ export default class GameOneView extends AbstractView {
         return;
       }
 
-      this.onChange(isCorrectAnswer());
+      this.onAnswer(isCorrectAnswer());
     });
   }
 
-  onChange() {}
+  onAnswer() {}
 }

@@ -1,16 +1,17 @@
 import AbstractView from '../views/abstract-view';
-import renderQuestions from '../questions/index';
-import getStats from '../stats/index';
+import renderQuestions from '../util/questions';
 
 export default class GameTwoView extends AbstractView {
 
-  constructor(game) {
+  constructor(level, statsBar) {
     super();
-    this.game = game;
+    this.level = level;
+    this.statsBar = statsBar;
   }
 
   get template() {
-    const {task: {questions}} = this.game;
+    console.log(this.level);
+    const {questions} = this.level;
 
     return `
     <div class="game">
@@ -18,18 +19,19 @@ export default class GameTwoView extends AbstractView {
       <form class="game__content  game__content--wide">
         ${renderQuestions(questions)}
       </form>
-      ${getStats()}
+      ${this.statsBar}
     </div>
     `;
   }
 
   bind() {
-    const form = this._element.querySelector(`.game__content`);
+    const form = this.element.querySelector(`.game__content`);
     const answers = Array.from(form.querySelectorAll(`input[type="radio"]`));
 
     const isAnswered = () => answers.some((answer) => answer.checked);
     const isSelectedAnswerCorrect = () => {
-      const {task: {questions}} = this.game.getLevel();
+      console.log('this.level', this.level);
+      const {questions} = this.level;
 
       for (let i = 0; i < answers.length; i++) {
         if (answers[i].checked && answers[i].value === questions[0].type) {
@@ -47,11 +49,9 @@ export default class GameTwoView extends AbstractView {
         return;
       }
 
-      this.onChange(isSelectedAnswerCorrect());
+      this.onAnswer(isSelectedAnswerCorrect());
     });
   }
 
-  onChange() {
-
-  }
+  onAnswer() {}
 }

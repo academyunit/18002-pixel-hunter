@@ -1,4 +1,5 @@
 import AbstractView from '../views/abstract-view';
+import Application from '../application';
 
 export default class GreetingView extends AbstractView {
 
@@ -21,7 +22,7 @@ export default class GreetingView extends AbstractView {
   }
 
   bind() {
-    this._element.addEventListener(`click`, (event) => {
+    this.element.addEventListener(`click`, (event) => {
       event.preventDefault();
 
       const target = event.target.closest(`.greeting__continue`);
@@ -29,7 +30,7 @@ export default class GreetingView extends AbstractView {
         return;
       }
 
-      this.onClick();
+      Application.showRules();
     });
   }
 }

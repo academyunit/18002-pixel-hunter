@@ -1,7 +1,11 @@
-import {isObject} from '../../is';
+import {isObject} from '../is';
+
+/**
+ * @todo: разобраться с константами тут и что куда испортится, положить все в одно место
+ */
 
 /** Кол-во жизней */
-const LIVES_COUNT = 3;
+export const LIVES_COUNT = 3;
 /** Бонус за оставшуюся жизнь */
 const LIFE_BONUS = 50;
 /** Кол-во ответов */
@@ -16,6 +20,31 @@ export const ANSWER_POINT = {
 export const ANSWER_TIME = {
   slow: 20,
   fast: 10
+};
+
+export const resultsData = {
+  victoryTitle: `Победа!`,
+  failTitle: `Fail`,
+  fastResults: {
+    type: `fast`,
+    label: `Бонус за скорость:`,
+    points: ANSWER_POINT.bonus,
+    icon: `fast`
+  },
+
+  livesResults: {
+    type: `lives`,
+    label: `Бонус за жизни:`,
+    points: LIFE_BONUS,
+    icon: `alive`
+  },
+
+  slowResults: {
+    type: `slow`,
+    label: `Штраф за медлительность:`,
+    points: ANSWER_POINT.fine,
+    icon: `slow`
+  }
 };
 
 const isFastAnswer = (time) => time < ANSWER_TIME.fast;

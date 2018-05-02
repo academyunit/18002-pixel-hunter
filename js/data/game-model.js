@@ -1,21 +1,18 @@
+import {INITIAL_STATE, TIMER_TIME} from '../data/game-config';
 import {levels} from './structure';
 import {Timer} from '../util/timer';
-import {calculateTotalGameScore} from '../util/calc';
-import {statsTemplate} from '../util/stats';
-
-const INITIAL_STATE = Object.freeze({
-  gameType: 'one',
-  level: 0,
-  lives: 3,
-  time: 30,
-  playerName: '',
-  answers: []
-});
+import {getTotalScore} from '../util/calc/index';
+import {getStatsTemplate} from '../util/stats';
 
 export default class GameModel {
-  constructor(playerName) {
-    this.restart();
+  constructor(playerName, levels) {
+    this._state = Object.assign({}, INITIAL_STATE);
     this._state.playerName = playerName;
+    this._state.levels = levels;
+  }
+
+  get state() {
+    return this._state;
   }
 
   restart() {
@@ -23,11 +20,11 @@ export default class GameModel {
   }
 
   getCurrentLevel() {
-    return levels[this._state.level];
+    return this.getLevels()[this._state.level];
   }
 
   getCurrentGameType() {
-    return levels[this._state.level].type;
+    return this.getLevels()[this._state.level].type;
   }
 
   updateLevel(level) {
@@ -39,7 +36,7 @@ export default class GameModel {
   }
 
   startTimer() {
-    this.timer = new Timer(30);
+    this.timer = new Timer(TIMER_TIME);
 
     return this.timer;
   }
@@ -54,7 +51,7 @@ export default class GameModel {
 
   getTotal() {
     if (!this._state.total) {
-      this._state.total = calculateTotalGameScore(this._state.answers, this._state.lives);
+      this._state.total = getTotalScore(this._state.answers, this._state.lives);
     }
 
     return this._state.total;
@@ -65,7 +62,7 @@ export default class GameModel {
   }
 
   isFinished() {
-    return this._state.level === levels.length - 1;
+    return this._state.level >= this.getLevels().length - 1;
   }
 
   reduceLives() {
@@ -78,9 +75,13 @@ export default class GameModel {
     }
 
     this._state.answers.push({
-      answer,
+      isCorrect: answer,
       time: this._state.time
     });
+  }
+
+  getLevels() {
+    return this._state.levels;
   }
 
   getAnswers() {
@@ -88,6 +89,6 @@ export default class GameModel {
   }
 
   getStatsBar() {
-    return statsTemplate(this.getAnswers());
+    return getStatsTemplate(this.getAnswers(), this.getLevels());
   }
 }

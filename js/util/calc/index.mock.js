@@ -1,7 +1,4 @@
-/**
- * @todo: разобраться с константами тут и что куда испортится, положить все в одно место
- */
-import {ANSWERS_COUNT, ANSWER_TIME} from './util';
+import {AnswerTime} from '../../data/game-config';
 
 export const LIFE = {
   max: 3,
@@ -10,8 +7,11 @@ export const LIFE = {
   none: 0
 };
 
+/** Кол-вол ответов для мока */
+const ANSWERS_MOCK_AMOUNT = 10;
+
 const getAnswers = ({isCorrect, time}) => {
-  let answers = new Array(ANSWERS_COUNT).fill({});
+  let answers = new Array(ANSWERS_MOCK_AMOUNT).fill({});
 
   return answers.map((answer) => {
     answer.isCorrect = isCorrect;
@@ -24,7 +24,7 @@ const getAnswers = ({isCorrect, time}) => {
 export const answer = {
   slow: {
     isCorrect: true,
-    time: ANSWER_TIME.slow + 1
+    time: AnswerTime.slow + 1
   },
   normal: {
     isCorrect: true,
@@ -32,7 +32,7 @@ export const answer = {
   },
   fast: {
     isCorrect: true,
-    time: ANSWER_TIME.fast - 1
+    time: AnswerTime.fast - 1
   },
   failed: {
     isCorrect: false,

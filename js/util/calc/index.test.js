@@ -1,6 +1,6 @@
 import {assert} from 'chai';
-import {LIFE, answer, answers} from './util.mock';
-import {calculateAnswerScore, calculateTotalGameScore} from './util';
+import {LIFE, answer, answers} from './index.mock';
+import {getAnswerScore as calculateAnswerScore, getTotalScore as calculateTotalGameScore} from './index';
 
 suite(`calculateAnswerScore(): check parameters`, () => {
   const defaultAnswer = answer.normal;

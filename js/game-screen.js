@@ -4,13 +4,12 @@ import GameThreeView from './views/game-three-view';
 import HeaderView from './views/header-view';
 import FooterView from './views/footer-view';
 import Application from './application';
-import {TaskType} from './data/structure';
+import {QuestionType} from './data/game-config';
 
 export default class GameScreen {
 
   constructor(model) {
     this.model = model;
-    window.game = model;
 
     this.header = new HeaderView(this.model);
     this.content = this.getGameView();
@@ -18,7 +17,6 @@ export default class GameScreen {
     this.root = document.createElement('div');
     this.root.appendChild(this.header.element);
     this.root.appendChild(this.content.element);
-    this.root.appendChild(new FooterView().element);
 
     this._interval = null;
   }
@@ -43,7 +41,7 @@ export default class GameScreen {
   }
 
   checkIfTimeIsUp() {
-    if (this.model._state <= 0) {
+    if (this.model.state.time <= 0) {
       this.stopGame();
       this.model.saveAnswer(false);
       this.changeLevel();
@@ -61,23 +59,19 @@ export default class GameScreen {
 
   changeLevel() {
     if (this.model.isOver() || this.model.isFinished()) {
+      const isLoose = this.model.getLevels().length > this.model.getAnswers().length;
+
       Application.showResults(
         this.model.getTotal(),
         this.model.getAnswers(),
         this.model.getLives(),
-        this.model.getStatsBar()
+        this.model.getStatsBar(),
+        isLoose
       );
     } else {
       this.model.nextLevel();
       this.startGame();
     }
-  }
-
-  endGame() {
-    const scoreBoard = new ScoreBoardView(this.model);
-
-    this.changeContentView(scoreBoard);
-    this.updateHeader();
   }
 
   changeContentView(view) {
@@ -92,13 +86,13 @@ export default class GameScreen {
     const statsBar = this.model.getStatsBar();
 
     switch(currentGameType) {
-      case TaskType.GAME_ONE:
+      case QuestionType.TWO_OF_TWO:
         view = new GameOneView(currentLevel, statsBar);
         break;
-      case TaskType.GAME_TWO:
+      case QuestionType.TINDER_LIKE:
         view = new GameTwoView(currentLevel, statsBar);
         break;
-      case TaskType.GAME_THREE:
+      case QuestionType.ONE_OF_THREE:
         view = new GameThreeView(currentLevel, statsBar);
         break;
       default:

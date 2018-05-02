@@ -1,10 +1,7 @@
 import AbstractView from '../views/abstract-view';
 import Application from '../application';
-import {LIVES_COUNT} from '../util/calc';
+import {Life} from '../data/game-config';
 
-/**
- * Header
- */
 export default class HeaderView extends AbstractView {
 
   constructor(game) {
@@ -49,9 +46,9 @@ export default class HeaderView extends AbstractView {
   }
 
   renderContentWithData() {
-    const {_state: {time, lives}} = this.game;
+    const {state: {time, lives}} = this.game;
 
-    const fullLives = new Array(LIVES_COUNT - lives).fill(this.drawHeart(false)).join(``);
+    const fullLives = new Array(Life.count - lives).fill(this.drawHeart(false)).join(``);
     const emptyLives = new Array(lives).fill(this.drawHeart(true)).join(``);
 
     return `<h1 class='game__timer'>${time}</h1>

@@ -1,5 +1,6 @@
 import AbstractView from '../views/abstract-view';
 import renderQuestions from '../util/questions';
+import {AnswerType} from '../data/game-config';
 
 export default class GameThreeView extends AbstractView {
 
@@ -10,13 +11,13 @@ export default class GameThreeView extends AbstractView {
   }
 
   get template() {
-    const {questions} = this.level;
+    const {answers} = this.level;
 
     return `
     <div class="game">
       <p class="game__task">Найдите рисунок среди изображений</p>
       <form class="game__content  game__content--triple">
-        ${renderQuestions(questions)}
+        ${renderQuestions(answers, true)}
       </form>
       ${this.statsBar}
     </div>
@@ -25,27 +26,27 @@ export default class GameThreeView extends AbstractView {
 
   bind() {
     const form = this.element.querySelector(`.game__content`);
-    const answers = Array.from(form.querySelectorAll(`.game__option`));
+    const answersList = Array.from(form.querySelectorAll(`.game__option`));
 
-    const resetAnswers = () => answers.forEach((answer) => answer.classList.remove(`game__option--selected`));
+    const resetAnswers = () => answersList.forEach((answer) => answer.classList.remove(`game__option--selected`));
     const setAnswer = (answer) => answer.classList.add(`game__option--selected`);
     const isSelectedAnswerCorrect = (answer) => {
-      const {questions} = this.level;
+      const {answers} = this.level;
 
       // Ищем правильный ответ в нашей структуре
-      let questionIndex = -1;
-      for (let i = 0; i < questions.length; i++) {
-        if (questions[i].isSelected) {
-          questionIndex = i;
+      let answerIndex = -1;
+      for (let i = 0; i < answers.length; i++) {
+        if (answers[i].type === AnswerType.PAINTING) {
+          answerIndex = i;
           break;
         }
       }
 
       // сравниваем только что выбранный DOM-элемент со списком остальных DOM-элементов.
-      return (answers[questionIndex] === answer);
+      return (answers[answerIndex] === answer);
     };
 
-    this._element.addEventListener(`click`, (event) => {
+    this.element.addEventListener(`click`, (event) => {
       event.preventDefault();
 
       const answer = event.target.closest(`.game__option`);

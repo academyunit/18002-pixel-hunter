@@ -6,7 +6,7 @@ import RulesView from './views/rules-view';
 import StatsView from './views/stats-view';
 import GameModel from './data/game-model'
 import GameScreen from './game-screen';
-import loadData from './util/dataLoader';
+import prepareResources from './util/resources';
 
 /** Сцена на которой рендерятся View. */
 const stage = document.querySelector(`.central`);
@@ -31,6 +31,9 @@ export const changeView = (view, header = null) => {
 
 export default class Application {
   static showIntro() {
+    if (Application.gameModel) {
+      Application.gameModel.restart(); // чтобы рестартить игру после возврата на IntroView
+    }
     Application.loadData();
 
     const introView = new IntroView();
@@ -52,8 +55,8 @@ export default class Application {
   }
 
   static showGame(playerName) {
-    const gameModel = new GameModel(playerName, Application.data);
-    const gameScreen = new GameScreen(gameModel);
+    Application.gameModel = new GameModel(playerName, Application.data);
+    const gameScreen = new GameScreen(Application.gameModel);
 
     changeView(gameScreen.element);
 
@@ -68,9 +71,11 @@ export default class Application {
   }
 
   static loadData() {
-    loadData((data) => {
-      Application.data = data;
-    });
+    if (!Application.data.length) {
+      prepareResources((data) => {
+        Application.data = data;
+      });
+    }
   }
 }
 Application.data = [];

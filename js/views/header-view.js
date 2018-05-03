@@ -17,7 +17,9 @@ export default class HeaderView extends AbstractView {
 
     backButton.addEventListener(`click`, (event) => {
       event.preventDefault();
-      Application.showGreeting();
+      if (confirm('Вы хотите начать игру сначала? Весь текущий прогресс будет утерян!')) {
+        Application.showIntro();
+      }
     });
   }
 

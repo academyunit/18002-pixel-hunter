@@ -1,5 +1,4 @@
 import {INITIAL_STATE, TIMER_TIME} from '../data/game-config';
-import {levels} from './structure';
 import {Timer} from '../util/timer';
 import {getTotalScore} from '../util/calc/index';
 import {getStatsTemplate} from '../util/stats';

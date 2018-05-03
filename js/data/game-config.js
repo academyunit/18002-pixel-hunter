@@ -10,31 +10,31 @@ export const INITIAL_STATE = Object.freeze({
 });
 
 /** Жизнь */
-export const Life = {
+export const Life = Object.freeze({
   // Кол-во жизней
   count: INITIAL_STATE.lives,
   // Бонус за оставшуюся жизнь
   bonus: 50
-};
+});
 
 /** Кол-во очков за ответ */
-export const AnswerPoint = {
+export const AnswerPoint = Object.freeze({
   default: 100,
   bonus: 50,
   fine: -50
-};
+});
 
 /** Время ответа на вопросы */
-export const AnswerTime = {
+export const AnswerTime = Object.freeze({
   slow: 20,
   fast: 10
-};
+});
 
 /** Время ответа на вопрос */
 export const TIMER_TIME = 30;
 
 /** Статистика по окончанию игры */
-export const StatsConfig = {
+export const StatsConfig = Object.freeze({
   victoryTitle: `Победа!`,
   failTitle: `Fail`,
   fastResults: {
@@ -55,15 +55,15 @@ export const StatsConfig = {
     points: AnswerPoint.fine,
     icon: `slow`
   }
-};
+});
 
-export const QuestionType = {
+export const QuestionType = Object.freeze({
   TWO_OF_TWO: 'two-of-two',
   TINDER_LIKE: 'tinder-like',
   ONE_OF_THREE: 'one-of-three'
-};
+});
 
-export const AnswerType = {
+export const AnswerType = Object.freeze({
   PAINTING: 'painting',
   PHOTO: 'photo'
-};
+});

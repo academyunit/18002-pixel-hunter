@@ -11,11 +11,11 @@ export default class GameThreeView extends AbstractView {
   }
 
   get template() {
-    const {answers} = this.level;
+    const {answers, question} = this.level;
 
     return `
     <div class="game">
-      <p class="game__task">Найдите рисунок среди изображений</p>
+      <p class="game__task">${question}</p>
       <form class="game__content  game__content--triple">
         ${renderQuestions(answers, true)}
       </form>
@@ -25,25 +25,37 @@ export default class GameThreeView extends AbstractView {
   }
 
   bind() {
-    const form = this.element.querySelector(`.game__content`);
-    const answersList = Array.from(form.querySelectorAll(`.game__option`));
+    const markSelectedAnswer = (answer) => answer.classList.add(`game__option--selected`);
+    const isCorrectAnswer = (answer) => {
+      const answersList = Array.from(this.element.querySelectorAll(`.game__option`));
 
-    const resetAnswers = () => answersList.forEach((answer) => answer.classList.remove(`game__option--selected`));
-    const setAnswer = (answer) => answer.classList.add(`game__option--selected`);
-    const isSelectedAnswerCorrect = (answer) => {
+      const selectedAnswerIndex = answersList.indexOf(answer);
+      const correctAnswerIndex = getCorrectAnswerIndex();
+
+      return (selectedAnswerIndex === correctAnswerIndex);
+    };
+
+    // Один проход по массиву -  O(n) ! :)
+    const getCorrectAnswerIndex = () => {
       const {answers} = this.level;
 
-      // Ищем правильный ответ в нашей структуре
-      let answerIndex = -1;
+      let availableTypes = {
+        [AnswerType.PAINTING]: 0,
+        [AnswerType.PHOTO]: 0
+      };
+
+      let correctAnswerIndex = -1;
       for (let i = 0; i < answers.length; i++) {
-        if (answers[i].type === AnswerType.PAINTING) {
-          answerIndex = i;
-          break;
+        const imageType = answers[i].type;
+
+        availableTypes[imageType]++;
+
+        if (availableTypes[imageType] < 2) {
+          correctAnswerIndex = i;
         }
       }
 
-      // сравниваем только что выбранный DOM-элемент со списком остальных DOM-элементов.
-      return (answers[answerIndex] === answer);
+      return correctAnswerIndex;
     };
 
     this.element.addEventListener(`click`, (event) => {
@@ -54,10 +66,9 @@ export default class GameThreeView extends AbstractView {
         return;
       }
 
-      resetAnswers();
-      setAnswer(answer);
+      markSelectedAnswer(answer);
 
-      this.onAnswer(isSelectedAnswerCorrect(answer));
+      this.onAnswer(isCorrectAnswer(answer));
     });
   }
 

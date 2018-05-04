@@ -50,14 +50,14 @@ export default class GameModel {
 
   getTotal() {
     if (!this._state.total) {
-      this._state.total = getTotalScore(this._state.answers, this._state.lives);
+      this._state.total = getTotalScore(this.getAnswers(), this.getLives());
     }
 
     return this._state.total;
   }
 
   isOver() {
-    return this._state.lives <= 0;
+    return this._state.lives < 0;
   }
 
   isFinished() {

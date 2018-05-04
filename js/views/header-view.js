@@ -1,6 +1,9 @@
 import AbstractView from '../views/abstract-view';
 import Application from '../application';
 import {Life} from '../data/game-config';
+import {flash} from '../util/timer';
+
+const showMessage = confirm;
 
 export default class HeaderView extends AbstractView {
 
@@ -17,8 +20,8 @@ export default class HeaderView extends AbstractView {
 
     backButton.addEventListener(`click`, (event) => {
       event.preventDefault();
-      if (confirm('Вы хотите начать игру сначала? Весь текущий прогресс будет утерян!')) {
-        Application.showIntro();
+      if (showMessage(`Вы хотите начать игру сначала? Весь текущий прогресс будет утерян!`)) {
+        Application.showGreeting();
       }
     });
   }
@@ -58,5 +61,15 @@ export default class HeaderView extends AbstractView {
             ${fullLives}
             ${emptyLives}
           </div>`;
+  }
+
+  bind() {
+    const timerContainer = this.element.querySelector(`.game__timer`);
+
+    if (timerContainer) {
+      document.addEventListener(`countDownTimerAlert`, () => {
+        flash(timerContainer);
+      });
+    }
   }
 }

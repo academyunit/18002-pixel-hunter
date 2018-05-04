@@ -1,3 +1,3 @@
 import Application from './application';
 
-document.addEventListener(`DOMContentLoaded`, Application.showIntro);
+document.addEventListener(`DOMContentLoaded`, Application.start);

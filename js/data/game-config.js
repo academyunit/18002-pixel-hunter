@@ -1,11 +1,11 @@
 /** Состояние игры по дефолту */
 export const INITIAL_STATE = Object.freeze({
-  gameType: 'one',
+  gameType: `one`,
   level: 0,
   levels: [],
   lives: 3,
   time: 30,
-  playerName: '',
+  playerName: ``,
   answers: []
 });
 
@@ -32,6 +32,7 @@ export const AnswerTime = Object.freeze({
 
 /** Время ответа на вопрос */
 export const TIMER_TIME = 30;
+export const TOTAL_QUESTIONS = 10;
 
 /** Статистика по окончанию игры */
 export const StatsConfig = Object.freeze({
@@ -58,12 +59,12 @@ export const StatsConfig = Object.freeze({
 });
 
 export const QuestionType = Object.freeze({
-  TWO_OF_TWO: 'two-of-two',
-  TINDER_LIKE: 'tinder-like',
-  ONE_OF_THREE: 'one-of-three'
+  TWO_OF_TWO: `two-of-two`,
+  TINDER_LIKE: `tinder-like`,
+  ONE_OF_THREE: `one-of-three`
 });
 
 export const AnswerType = Object.freeze({
-  PAINTING: 'painting',
-  PHOTO: 'photo'
+  PAINTING: `painting`,
+  PHOTO: `photo`
 });

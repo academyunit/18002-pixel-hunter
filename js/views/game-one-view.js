@@ -2,7 +2,7 @@ import AbstractView from '../views/abstract-view';
 import renderQuestions from '../util/questions';
 
 /**
- * 2 картинки
+ * Две картинки
  */
 export default class GameOneView extends AbstractView {
 
@@ -52,8 +52,6 @@ export default class GameOneView extends AbstractView {
       if (!isAnswered()) {
         return;
       }
-
-      console.log('GameOneView', isCorrectAnswer());
 
       this.onAnswer(isCorrectAnswer());
     });

@@ -18,4 +18,21 @@ export class Timer {
 
     return this.time;
   }
+
+  triggerAlert() {
+    if (this.time <= 28) {
+      document.dispatchEvent(new CustomEvent(`countDownTimerAlert`));
+    }
+  }
 }
+
+export const flash = (element, times) => {
+  const colors = [`#ffFFFf`, `#ff0000`];
+  element.style.backgroundColor = colors[times % colors.length];
+  if (times === 0) {
+    return;
+  }
+  setTimeout(() => {
+    flash(element, times - 1);
+  }, 200);
+};

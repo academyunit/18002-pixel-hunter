@@ -1,4 +1,4 @@
-import {QuestionType, AnswerType} from '../data/game-config';
+import {AnswerType} from '../data/game-config';
 
 const answerTypeToAnswerName = {
   [AnswerType.PHOTO]: `Фото`,
@@ -16,7 +16,7 @@ const renderAnswerControls = (index) => {
 };
 
 const getImage = ({url, height, width}, i) => {
-  return `<img src='${url}' width='${height}' height='${height}' alt='Option ${i}'>`;
+  return `<img src='${url}' width='${width}' height='${height}' alt='Option ${i}'>`;
 };
 
 export default (questions, hideControls = false) => questions.map((question, i) => {

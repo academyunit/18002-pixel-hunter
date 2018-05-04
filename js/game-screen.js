@@ -2,7 +2,6 @@ import GameOneView from './views/game-one-view';
 import GameTwoView from './views/game-two-view';
 import GameThreeView from './views/game-three-view';
 import HeaderView from './views/header-view';
-import FooterView from './views/footer-view';
 import Application from './application';
 import {QuestionType} from './data/game-config';
 
@@ -14,7 +13,7 @@ export default class GameScreen {
     this.header = new HeaderView(this.model);
     this.content = this.getGameView();
 
-    this.root = document.createElement('div');
+    this.root = document.createElement(`div`);
     this.root.appendChild(this.header.element);
     this.root.appendChild(this.content.element);
 
@@ -59,15 +58,9 @@ export default class GameScreen {
 
   changeLevel() {
     if (this.model.isOver() || this.model.isFinished()) {
-      const isLoose = this.model.getLevels().length > this.model.getAnswers().length;
+      Application.showResults(this.results);
 
-      Application.showResults(
-        this.model.getTotal(),
-        this.model.getAnswers(),
-        this.model.getLives(),
-        this.model.getStatsBar(),
-        isLoose
-      );
+      this.model.restart();
     } else {
       this.model.nextLevel();
       this.startGame();
@@ -85,7 +78,7 @@ export default class GameScreen {
     const currentLevel = this.model.getCurrentLevel();
     const statsBar = this.model.getStatsBar();
 
-    switch(currentGameType) {
+    switch (currentGameType) {
       case QuestionType.TWO_OF_TWO:
         view = new GameOneView(currentLevel, statsBar);
         break;
@@ -106,6 +99,15 @@ export default class GameScreen {
     this.stopGame();
     this.model.saveAnswer(answer);
     this.changeLevel();
+  }
+
+  get results() {
+    return {
+      total: this.model.getTotal(),
+      answers: this.model.getAnswers(),
+      lives: this.model.getLives(),
+      statsBar: this.model.getStatsBar()
+    };
   }
 
   updateHeader() {

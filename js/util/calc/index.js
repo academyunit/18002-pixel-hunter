@@ -1,4 +1,4 @@
-import {Life, AnswerPoint, AnswerTime} from '../../data/game-config';
+import {Life, AnswerPoint, AnswerTime, TOTAL_QUESTIONS} from '../../data/game-config';
 import {isObject} from '../is';
 
 const isFastAnswer = (time) => time < AnswerTime.fast;
@@ -66,8 +66,12 @@ export const getTotalScore = (answers, lives) => {
     throw new Error(`Argument 'lives' should be a number!`);
   }
 
-  if (lives < 0 || lives > Life.count) {
+  if (lives < -1 || lives > Life.count) {
     throw new Error(`'lives' count is out of range!`);
+  }
+
+  if (answers.length < TOTAL_QUESTIONS) {
+    return -1;
   }
 
   const answersScore = answers.reduce((sum, current) => {

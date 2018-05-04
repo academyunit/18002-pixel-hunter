@@ -4,13 +4,15 @@ import IntroView from './views/intro-view';
 import GreetingView from './views/greeting-view';
 import RulesView from './views/rules-view';
 import StatsView from './views/stats-view';
-import GameModel from './data/game-model'
+import ErrorView from './views/error-view';
+import GameModel from './data/game-model';
 import GameScreen from './game-screen';
-import prepareResources from './util/resources';
+import Loader from './loader';
 
 /** Сцена на которой рендерятся View. */
 const stage = document.querySelector(`.central`);
 const footer = new FooterView().element;
+let gameData;
 
 /**
  * Изменить View.
@@ -30,12 +32,20 @@ export const changeView = (view, header = null) => {
 
 
 export default class Application {
-  static showIntro() {
-    if (Application.gameModel) {
-      Application.gameModel.restart(); // чтобы рестартить игру после возврата на IntroView
-    }
-    Application.loadData();
 
+  static start() {
+    Application.showIntro();
+    Loader
+        .loadData()
+        .then((data) => {
+          gameData = data;
+
+          Application.showGreeting();
+        })
+        .catch(Application.showError);
+  }
+
+  static showIntro() {
     const introView = new IntroView();
 
     changeView(introView.element);
@@ -55,27 +65,29 @@ export default class Application {
   }
 
   static showGame(playerName) {
-    Application.gameModel = new GameModel(playerName, Application.data);
-    const gameScreen = new GameScreen(Application.gameModel);
+    const game = new GameModel(playerName, gameData);
+    const gameScreen = new GameScreen(game);
+
+    window.game = game;
 
     changeView(gameScreen.element);
 
     gameScreen.startGame();
   }
 
-  static showResults(total, answers, lives, statsBar, isLoose = false) {
-    const statsView = new StatsView(total, answers, lives, statsBar, isLoose);
+  static showResults(results, playerName) {
+    const statsView = new StatsView(results);
     const header = new HeaderView();
 
     changeView(statsView.element, header.element);
+    Loader
+        .saveResults(results, playerName)
+        .then(() => Loader.loadResults(playerName))
+        .then((scores) => statsView.showScores(scores))
+        .catch(Application.showError);
   }
 
-  static loadData() {
-    if (!Application.data.length) {
-      prepareResources((data) => {
-        Application.data = data;
-      });
-    }
+  static showError(error) {
+    changeView(new ErrorView(error).element);
   }
 }
-Application.data = [];

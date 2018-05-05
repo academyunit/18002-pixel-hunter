@@ -66,7 +66,7 @@ export const getTotalScore = (answers, lives) => {
     throw new Error(`Argument 'lives' should be a number!`);
   }
 
-  if (lives < -1 || lives > Life.count) {
+  if (lives < 0 || lives > Life.count) {
     throw new Error(`'lives' count is out of range!`);
   }
 

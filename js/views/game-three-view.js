@@ -14,13 +14,13 @@ export default class GameThreeView extends AbstractView {
     const {answers, question} = this.level;
 
     return `
-    <div class="game">
-      <p class="game__task">${question}</p>
-      <form class="game__content  game__content--triple">
-        ${renderQuestions(answers, true)}
-      </form>
-      ${this.statsBar}
-    </div>
+      <div class="game">
+        <p class="game__task">${question}</p>
+        <form class="game__content  game__content--triple">
+          ${renderQuestions(answers, true)}
+        </form>
+        ${this.statsBar}
+      </div>
     `;
   }
 

@@ -30,7 +30,6 @@ export const changeView = (view, header = null) => {
   stage.insertAdjacentElement(`afterEnd`, footer);
 };
 
-
 export default class Application {
 
   static start() {
@@ -67,8 +66,6 @@ export default class Application {
   static showGame(playerName) {
     const game = new GameModel(playerName, gameData);
     const gameScreen = new GameScreen(game);
-
-    window.game = game;
 
     changeView(gameScreen.element);
 

@@ -83,8 +83,8 @@ suite(`calculateTotalGameScore(): check parameters`, () => {
     assert.equal(-1, calculateTotalGameScore(arr, LIFE.max));
   });
 
-  test(`should throw an error if lives < -1 or > 3`, () => {
-    assert.throws(() => calculateTotalGameScore(answers.normal, -2));
+  test(`should throw an error if lives < 0 or > 3`, () => {
+    assert.throws(() => calculateTotalGameScore(answers.normal, -1));
     assert.throws(() => calculateTotalGameScore(answers.normal, 4));
   });
 

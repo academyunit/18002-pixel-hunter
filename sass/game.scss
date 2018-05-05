@@ -15,6 +15,15 @@
   top: 25px;
   left: 50%;
   transform: translateX(-50%);
+
+  &--alarm {
+    animation: alarm 0.5s ease-in-out infinite;
+  }
+}
+
+@keyframes alarm {
+  0% { color: red }
+  100% { color: rgba(255, 0, 0, 0) }
 }
 
 .game__lives {
@@ -89,7 +98,7 @@
     left: 30px;
   }
 
-  &--paint {
+  &--painting {
     input + span {
       background-image: url("../img/paint_big.png");
     }
@@ -108,13 +117,12 @@
     top: 208px;
   }
 
-  /* CSS весь разъезжается иначе */
   .game__answer--photo {
-    //left: -100px
+    left: -100px
   }
 
-  .game__answer--paint {
-    //right: -100px;
+  .game__answer--painting {
+    right: -100px;
   }
 
   img {

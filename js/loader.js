@@ -1,5 +1,5 @@
 const SERVER_URL = `https://es.dump.academy/pixel-hunter`;
-const APP_ID = 777777;
+const APP_ID = 18002;
 
 const toJSON = (response) => response.json();
 

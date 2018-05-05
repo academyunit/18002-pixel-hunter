@@ -1,21 +1,15 @@
-import {INITIAL_STATE, TIMER_TIME} from '../data/game-config';
-import {Timer} from '../util/timer';
+import {INITIAL_STATE, TimerConfig} from '../data/game-config';
+import {Timer, flashTimer} from '../util/timer';
 import {getTotalScore} from '../util/calc/index';
 import {getStatsTemplate} from '../util/stats';
 
 export default class GameModel {
   constructor(playerName, levels) {
-    this._state = Object.assign({}, INITIAL_STATE);
-    this._state.playerName = playerName;
-    this._state.levels = levels;
+    this._state = Object.assign({}, INITIAL_STATE, {playerName}, {levels});
   }
 
   get state() {
     return this._state;
-  }
-
-  restart() {
-    this._state = Object.assign({}, INITIAL_STATE);
   }
 
   getCurrentLevel() {
@@ -35,7 +29,7 @@ export default class GameModel {
   }
 
   startTimer() {
-    this.timer = new Timer(TIMER_TIME);
+    this.timer = new Timer(TimerConfig.defaultTime);
 
     return this.timer;
   }
@@ -57,7 +51,7 @@ export default class GameModel {
   }
 
   isOver() {
-    return this._state.lives < 0;
+    return this._state.lives <= 0;
   }
 
   isFinished() {
@@ -73,7 +67,7 @@ export default class GameModel {
       this.reduceLives();
     }
 
-    this._state.answers.push({
+    this._state.answers = this._state.answers.concat({
       isCorrect: answer,
       time: this._state.time
     });
@@ -89,5 +83,9 @@ export default class GameModel {
 
   getStatsBar() {
     return getStatsTemplate(this.getAnswers(), this.getLevels());
+  }
+
+  updateTimer(element) {
+    flashTimer(element);
   }
 }

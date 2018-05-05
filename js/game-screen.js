@@ -59,8 +59,6 @@ export default class GameScreen {
   changeLevel() {
     if (this.model.isOver() || this.model.isFinished()) {
       Application.showResults(this.results);
-
-      this.model.restart();
     } else {
       this.model.nextLevel();
       this.startGame();
@@ -115,6 +113,8 @@ export default class GameScreen {
 
     this.root.replaceChild(header.element, this.header.element);
     this.header = header;
+    this.header.updateTimer = this.model.updateTimer;
+    this.header.updateTimer(header.element);
   }
 
 }

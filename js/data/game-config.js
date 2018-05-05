@@ -30,8 +30,12 @@ export const AnswerTime = Object.freeze({
   fast: 10
 });
 
-/** Время ответа на вопрос */
-export const TIMER_TIME = 30;
+/** Настройки таймера */
+export const TimerConfig = {
+  defaultTime: 30,
+  alarmTime: 5
+};
+
 export const TOTAL_QUESTIONS = 10;
 
 /** Статистика по окончанию игры */

@@ -16,13 +16,13 @@ export default class GameTwoView extends AbstractView {
     const {answers} = this.level;
 
     return `
-    <div class="game">
-      <p class="game__task">Угадай, фото или рисунок?</p>
-      <form class="game__content  game__content--wide">
-        ${renderQuestions(answers)}
-      </form>
-      ${this.statsBar}
-    </div>
+      <div class="game">
+        <p class="game__task">Угадай, фото или рисунок?</p>
+        <form class="game__content  game__content--wide">
+          ${renderQuestions(answers)}
+        </form>
+        ${this.statsBar}
+      </div>
     `;
   }
 

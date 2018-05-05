@@ -4,12 +4,15 @@ import IntroView from './views/intro-view';
 import GreetingView from './views/greeting-view';
 import RulesView from './views/rules-view';
 import StatsView from './views/stats-view';
-import GameModel from './data/game-model'
+import ErrorView from './views/error-view';
+import GameModel from './data/game-model';
 import GameScreen from './game-screen';
+import Loader from './loader';
 
 /** Сцена на которой рендерятся View. */
 const stage = document.querySelector(`.central`);
 const footer = new FooterView().element;
+let gameData;
 
 /**
  * Изменить View.
@@ -17,7 +20,7 @@ const footer = new FooterView().element;
  * @param {Node} view
  * @param {Node} header
  */
-export const changeView = (view, header) => {
+export const changeView = (view, header = null) => {
   stage.innerHTML = ``;
   stage.nextSibling.remove();
   stage.appendChild(view);
@@ -27,36 +30,61 @@ export const changeView = (view, header) => {
   stage.insertAdjacentElement(`afterEnd`, footer);
 };
 
-
 export default class Application {
 
+  static start() {
+    Application.showIntro();
+    Loader
+        .loadData()
+        .then((data) => {
+          gameData = data;
+
+          Application.showGreeting();
+        })
+        .catch(Application.showError);
+  }
+
   static showIntro() {
-    changeView(new IntroView().element);
+    const introView = new IntroView();
+
+    changeView(introView.element);
   }
 
   static showGreeting() {
-    changeView(new GreetingView().element);
+    const greetingView = new GreetingView();
+
+    changeView(greetingView.element);
   }
 
   static showRules() {
     const header = new HeaderView();
-    console.log(header);
     const rules = new RulesView();
+
     changeView(rules.element, header.element);
   }
 
   static showGame(playerName) {
-    const gameScreen = new GameScreen(new GameModel(playerName));
+    const game = new GameModel(playerName, gameData);
+    const gameScreen = new GameScreen(game);
 
     changeView(gameScreen.element);
 
     gameScreen.startGame();
   }
 
-  static showResults(total, answers, lives, statsBar) {
-    const statsView = new StatsView(total, answers, lives, statsBar);
+  static showResults(results, playerName) {
+    const statsView = new StatsView(results);
     const header = new HeaderView();
 
     changeView(statsView.element, header.element);
+    Loader
+        .saveResults(results, playerName)
+        .then(() => Loader.loadResults(playerName))
+        .then((scores) => statsView.showScores(scores))
+        .catch(Application.showError);
+  }
+
+  static showError(error) {
+    changeView(new ErrorView(error).element);
   }
 }

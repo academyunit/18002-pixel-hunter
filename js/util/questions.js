@@ -1,9 +1,11 @@
+import {AnswerType} from '../data/game-config';
+
 const answerTypeToAnswerName = {
-  'photo': `Фото`,
-  'paint': `Рисунок`
+  [AnswerType.PHOTO]: `Фото`,
+  [AnswerType.PAINTING]: `Рисунок`
 };
 
-const answers = [`photo`, `paint`];
+const answers = [AnswerType.PHOTO, AnswerType.PAINTING];
 
 const renderAnswerControls = (index) => {
   return answers.map((it) =>
@@ -13,13 +15,17 @@ const renderAnswerControls = (index) => {
     </label>`).join(``);
 };
 
-export default (questions) => questions.map((question, i) => {
+const getImage = ({url, height, width}, i) => {
+  return `<img src='${url}' width='${width}' height='${height}' alt='Option ${i}'>`;
+};
+
+export default (questions, hideControls = false) => questions.map((question, i) => {
   i += 1;
 
   return `
-  <div class='game__option ${question.isSelected ? `game__option--selected` : ``}'>
-    <img src=${question.img} alt='Option ${i}'>
-    ${(`isSelected` in question) ? `` : renderAnswerControls(i)}
+  <div class='game__option ${hideControls ? `game__option--selected` : ``}'>
+    ${getImage(question.image)}
+    ${hideControls ? `` : renderAnswerControls(i)}
   </div>
   `;
 }).join(``);

@@ -1,56 +1,74 @@
-/**
- * @todo: разобраться с константами тут и что куда испортится, положить все в одно место
- */
+/** Состояние игры по дефолту */
+export const INITIAL_STATE = Object.freeze({
+  gameType: `one`,
+  level: 0,
+  levels: [],
+  lives: 3,
+  time: 30,
+  playerName: ``,
+  answers: []
+});
 
-//import {QUESTIONS} from './structure';
-//
-//// Начальное состояние игры
-//export const INITIAL_GAME = Object.freeze({
-//  task: null,
-//  tasks: [...QUESTIONS],
-//  type: `intro`,
-//  gameNumber: null,
-//  answers: [],
-//  lives: 3,
-//  timer: 30,
-//  playerName: ``
-//});
+/** Жизнь */
+export const Life = Object.freeze({
+  // Кол-во жизней
+  count: INITIAL_STATE.lives,
+  // Бонус за оставшуюся жизнь
+  bonus: 50
+});
 
-/**
- * @deprecated
- * удалить это отсюда потом
- * @todo: 05/01/18 - точно удалить потом
- */
-// Кол-во уровней в игре
-export const GAME_ROUNDS_COUNT = 10;
-
-/**
- * @deprecated
- * удалить это отсюда потом
- * @todo: 05/01/18 - точно удалить потом
- */
-// Начальное время таймера
-export const TIMER_TIME = 30;
-
-//// Жизнь
-//export const Life = {
-//  count: INITIAL_GAME.lives,
-//  bonus: 50
-//};
-
-// Очки за ответ
-export const AnswerPoint = {
+/** Кол-во очков за ответ */
+export const AnswerPoint = Object.freeze({
   default: 100,
   bonus: 50,
   fine: -50
-};
+});
 
-export const AnswerTime = {
+/** Время ответа на вопросы */
+export const AnswerTime = Object.freeze({
   slow: 20,
   fast: 10
+});
+
+/** Настройки таймера */
+export const TimerConfig = {
+  defaultTime: 30,
+  alarmTime: 5
 };
 
-export const Result = {
-  INCORRECT_ANSWER: 0,
-  CORRECT_ANSWER: 1
-};
+export const TOTAL_QUESTIONS = 10;
+
+/** Статистика по окончанию игры */
+export const StatsConfig = Object.freeze({
+  victoryTitle: `Победа!`,
+  failTitle: `Fail`,
+  fastResults: {
+    type: `fast`,
+    label: `Бонус за скорость:`,
+    points: AnswerPoint.bonus,
+    icon: `fast`
+  },
+  livesResults: {
+    type: `lives`,
+    label: `Бонус за жизни:`,
+    points: Life.bonus,
+    icon: `alive`
+  },
+  slowResults: {
+    type: `slow`,
+    label: `Штраф за медлительность:`,
+    points: AnswerPoint.fine,
+    icon: `slow`
+  }
+});
+
+export const QuestionType = Object.freeze({
+  TWO_OF_TWO: `two-of-two`,
+  TINDER_LIKE: `tinder-like`,
+  ONE_OF_THREE: `one-of-three`
+});
+
+export const AnswerType = Object.freeze({
+  PAINTING: `painting`,
+  PHOTO: `photo`
+});

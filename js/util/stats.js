@@ -1,26 +1,22 @@
-import {ANSWER_TIME, ANSWERS_COUNT} from '../util/calc';
+import {AnswerTime} from '../data/game-config';
 
-export const statsTemplate = (answers) => {
-  let resultsArray = [];
+const getEmptyQuestionsIcons = (answers, totalAnswers) => {
+  return new Array(totalAnswers.length - answers.length)
+      .fill(`<li class="stats__result stats__result--unknown"></li>`)
+      .join(``);
+};
 
-  answers.forEach(({answer, time}) => {
-    if (!answer) {
-      resultsArray.push(`<li class="stats__result stats__result--wrong"></li>`);
-    } else if (time > ANSWER_TIME.fast) {
-      resultsArray.push(`<li class="stats__result stats__result--fast"></li>`);
-    } else if (time < ANSWER_TIME.slow) {
-      resultsArray.push(`<li class="stats__result stats__result--slow"></li>`);
-    } else {
-      resultsArray.push(`<li class="stats__result stats__result--correct"></li>`);
+export const getStatsTemplate = (answers, totalAnswers) => {
+  let output = answers.reduce((questions, {isCorrect, time}) => {
+    let icon = `wrong`;
+    if (isCorrect) {
+      icon = time < AnswerTime.slow ? `slow` : `fast`;
     }
-  });
+    return questions + `<li class="stats__result stats__result--${icon}"></li>`;
+  }, ``);
 
-  /**
-   * @todo: надо бы избавиться от хардкода с кол-ом ответов тут, потому что вопросов может и 100 прийти с сервера...
-   */
-  while (resultsArray.length < ANSWERS_COUNT) {
-    resultsArray.push(`<li class="stats__result stats__result--unknown"></li>`);
-  }
+  // Оставшиеся вопросы пока не отвечены и должны быть помечены нейтральными иконками
+  output += getEmptyQuestionsIcons(answers, totalAnswers);
 
-  return resultsArray.join(` `);
+  return `<ul class="stats">${output}</ul>`;
 };

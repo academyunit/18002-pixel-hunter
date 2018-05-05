@@ -80,7 +80,7 @@ suite(`calculateTotalGameScore(): check parameters`, () => {
     const arr = answers.normal.slice();
     arr.length = 9;
 
-    assert.equal(-1, calculateTotalGameScore(arr, LIFE.max));
+    assert.equal(-1, calculateTotalGameScore(arr, LIFE.MAX));
   });
 
   test(`should throw an error if lives < 0 or > 3`, () => {
@@ -89,31 +89,31 @@ suite(`calculateTotalGameScore(): check parameters`, () => {
   });
 
   test(`should return a number`, () => {
-    assert.isNumber(calculateTotalGameScore(answers.normal, LIFE.max));
+    assert.isNumber(calculateTotalGameScore(answers.normal, LIFE.MAX));
   });
 });
 
 suite(`calculateTotalGameScore(): calculate total score and lives`, () => {
 
   test(`slow response time`, () => {
-    assert.equal(calculateTotalGameScore(answers.slow, LIFE.max), 650);
-    assert.equal(calculateTotalGameScore(answers.slow, LIFE.medium), 600);
-    assert.equal(calculateTotalGameScore(answers.slow, LIFE.min), 550);
-    assert.equal(calculateTotalGameScore(answers.slow, LIFE.none), 500);
+    assert.equal(calculateTotalGameScore(answers.slow, LIFE.MAX), 650);
+    assert.equal(calculateTotalGameScore(answers.slow, LIFE.MEDIUM), 600);
+    assert.equal(calculateTotalGameScore(answers.slow, LIFE.MIN), 550);
+    assert.equal(calculateTotalGameScore(answers.slow, LIFE.NONE), 500);
   });
 
   test(`normal response time`, () => {
-    assert.equal(calculateTotalGameScore(answers.normal, LIFE.max), 1150);
-    assert.equal(calculateTotalGameScore(answers.normal, LIFE.medium), 1100);
-    assert.equal(calculateTotalGameScore(answers.normal, LIFE.min), 1050);
-    assert.equal(calculateTotalGameScore(answers.normal, LIFE.none), 1000);
+    assert.equal(calculateTotalGameScore(answers.normal, LIFE.MAX), 1150);
+    assert.equal(calculateTotalGameScore(answers.normal, LIFE.MEDIUM), 1100);
+    assert.equal(calculateTotalGameScore(answers.normal, LIFE.MIN), 1050);
+    assert.equal(calculateTotalGameScore(answers.normal, LIFE.NONE), 1000);
   });
 
   test(`fast response time`, () => {
-    assert.equal(calculateTotalGameScore(answers.fast, LIFE.max), 1650);
-    assert.equal(calculateTotalGameScore(answers.fast, LIFE.medium), 1600);
-    assert.equal(calculateTotalGameScore(answers.fast, LIFE.min), 1550);
-    assert.equal(calculateTotalGameScore(answers.fast, LIFE.none), 1500);
+    assert.equal(calculateTotalGameScore(answers.fast, LIFE.MAX), 1650);
+    assert.equal(calculateTotalGameScore(answers.fast, LIFE.MEDIUM), 1600);
+    assert.equal(calculateTotalGameScore(answers.fast, LIFE.MIN), 1550);
+    assert.equal(calculateTotalGameScore(answers.fast, LIFE.NONE), 1500);
   });
 });
 

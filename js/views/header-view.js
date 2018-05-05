@@ -53,7 +53,7 @@ export default class HeaderView extends AbstractView {
   renderContentWithData() {
     const {state: {time, lives}} = this.game;
 
-    const fullLives = new Array(Life.count - lives).fill(this.drawHeart(false)).join(``);
+    const fullLives = new Array(Life.COUNT - lives).fill(this.drawHeart(false)).join(``);
     const emptyLives = new Array(lives).fill(this.drawHeart(true)).join(``);
 
     return `<h1 class='game__timer'>${time}</h1>

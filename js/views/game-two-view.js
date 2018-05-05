@@ -34,8 +34,8 @@ export default class GameTwoView extends AbstractView {
     const isSelectedAnswerCorrect = () => {
       const {answers} = this.level;
 
-      for (let i = 0; i < answersList.length; i++) {
-        if (answersList[i].checked && answersList[i].value === answers[0].type) {
+      for (const currentAnswer of answersList) {
+        if (currentAnswer.checked && currentAnswer.value === answers[0].type) {
           return true;
         }
       }

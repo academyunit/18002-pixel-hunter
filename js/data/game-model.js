@@ -29,7 +29,7 @@ export default class GameModel {
   }
 
   startTimer() {
-    this.timer = new Timer(TimerConfig.defaultTime);
+    this.timer = new Timer(TimerConfig.DEFAULT_TIME);
 
     return this.timer;
   }

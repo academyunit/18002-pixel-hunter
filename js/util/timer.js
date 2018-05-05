@@ -23,7 +23,7 @@ export class Timer {
 
 export const flashTimer = (element) => {
   const timer = element.querySelector(`.game__timer`);
-  if (parseInt(timer.textContent, 10) <= TimerConfig.alarmTime) {
+  if (parseInt(timer.textContent, 10) <= TimerConfig.ALARM_TIME) {
     timer.classList.add(`game__timer--alarm`);
   }
 };

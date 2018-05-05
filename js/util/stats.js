@@ -10,7 +10,7 @@ export const getStatsTemplate = (answers, totalAnswers) => {
   let output = answers.reduce((questions, {isCorrect, time}) => {
     let icon = `wrong`;
     if (isCorrect) {
-      icon = time < AnswerTime.slow ? `slow` : `fast`;
+      icon = time < AnswerTime.SLOW ? `slow` : `fast`;
     }
     return questions + `<li class="stats__result stats__result--${icon}"></li>`;
   }, ``);

@@ -1,10 +1,10 @@
 import {AnswerTime} from '../../data/game-config';
 
 export const LIFE = {
-  max: 3,
-  medium: 2,
-  min: 1,
-  none: 0
+  MAX: 3,
+  MEDIUM: 2,
+  MIN: 1,
+  NONE: 0
 };
 
 /** Кол-вол ответов для мока */
@@ -24,7 +24,7 @@ const getAnswers = ({isCorrect, time}) => {
 export const answer = {
   slow: {
     isCorrect: true,
-    time: AnswerTime.slow + 1
+    time: AnswerTime.SLOW + 1
   },
   normal: {
     isCorrect: true,
@@ -32,7 +32,7 @@ export const answer = {
   },
   fast: {
     isCorrect: true,
-    time: AnswerTime.fast - 1
+    time: AnswerTime.FAST - 1
   },
   failed: {
     isCorrect: false,

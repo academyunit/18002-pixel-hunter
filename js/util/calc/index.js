@@ -1,8 +1,8 @@
 import {Life, AnswerPoint, AnswerTime, TOTAL_QUESTIONS} from '../../data/game-config';
 import {isObject} from '../is';
 
-const isFastAnswer = (time) => time < AnswerTime.fast;
-const isSlowAnswer = (time) => time > AnswerTime.slow;
+const isFastAnswer = (time) => time < AnswerTime.FAST;
+const isSlowAnswer = (time) => time > AnswerTime.SLOW;
 
 /**
  * @typedef {Object} Answer
@@ -44,15 +44,15 @@ export const getAnswerScore = (answer) => {
   }
 
   // Столько стоит каждый правильный ответ
-  score += AnswerPoint.default;
+  score += AnswerPoint.DEFAULT;
 
   // Быстрый ответ стоит на 50 очков больше...
   if (isFastAnswer(answer.time)) {
-    score += AnswerPoint.bonus;
+    score += AnswerPoint.BONUS;
   }
   // ... а медленный - на 50 меньше
   if (isSlowAnswer(answer.time)) {
-    score += AnswerPoint.fine;
+    score += AnswerPoint.FINE;
   }
 
   return score;
@@ -66,7 +66,7 @@ export const getTotalScore = (answers, lives) => {
     throw new Error(`Argument 'lives' should be a number!`);
   }
 
-  if (lives < 0 || lives > Life.count) {
+  if (lives < 0 || lives > Life.COUNT) {
     throw new Error(`'lives' count is out of range!`);
   }
 
@@ -79,5 +79,5 @@ export const getTotalScore = (answers, lives) => {
   }, 0);
 
   // Каждая оставшаяся жизнь тоже добавляет по 50 очков
-  return answersScore + (lives * Life.bonus);
+  return answersScore + (lives * Life.BONUS);
 };

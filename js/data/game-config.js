@@ -12,53 +12,53 @@ export const INITIAL_STATE = Object.freeze({
 /** Жизнь */
 export const Life = Object.freeze({
   // Кол-во жизней
-  count: INITIAL_STATE.lives,
+  COUNT: INITIAL_STATE.lives,
   // Бонус за оставшуюся жизнь
-  bonus: 50
+  BONUS: 50
 });
 
 /** Кол-во очков за ответ */
 export const AnswerPoint = Object.freeze({
-  default: 100,
-  bonus: 50,
-  fine: -50
+  DEFAULT: 100,
+  BONUS: 50,
+  FINE: -50
 });
 
 /** Время ответа на вопросы */
 export const AnswerTime = Object.freeze({
-  slow: 20,
-  fast: 10
+  SLOW: 20,
+  FAST: 10
 });
 
 /** Настройки таймера */
 export const TimerConfig = {
-  defaultTime: 30,
-  alarmTime: 5
+  DEFAULT_TIME: 30,
+  ALARM_TIME: 5
 };
 
 export const TOTAL_QUESTIONS = 10;
 
 /** Статистика по окончанию игры */
 export const StatsConfig = Object.freeze({
-  victoryTitle: `Победа!`,
-  failTitle: `Fail`,
-  fastResults: {
-    type: `fast`,
-    label: `Бонус за скорость:`,
-    points: AnswerPoint.bonus,
-    icon: `fast`
+  VICTORY_TITLE: `Победа!`,
+  FAIL_TITLE: `Fail`,
+  FAST_RESULTS: {
+    TYPE: `fast`,
+    LABEL: `Бонус за скорость:`,
+    POINTS: AnswerPoint.BONUS,
+    ICON: `fast`
   },
-  livesResults: {
-    type: `lives`,
-    label: `Бонус за жизни:`,
-    points: Life.bonus,
-    icon: `alive`
+  LIVES_RESULTS: {
+    TYPE: `lives`,
+    LABEL: `Бонус за жизни:`,
+    POINTS: Life.BONUS,
+    ICON: `alive`
   },
-  slowResults: {
-    type: `slow`,
-    label: `Штраф за медлительность:`,
-    points: AnswerPoint.fine,
-    icon: `slow`
+  SLOW_RESULTS: {
+    TYPE: `slow`,
+    LABEL: `Штраф за медлительность:`,
+    POINTS: AnswerPoint.FINE,
+    ICON: `slow`
   }
 });
 

@@ -20,6 +20,10 @@ export default class GameModel {
     return this.getLevels()[this._state.level].type;
   }
 
+  getPlayerName() {
+    return this._state.playerName;
+  }
+
   updateLevel(level) {
     this._state.level = level;
   }
@@ -51,7 +55,7 @@ export default class GameModel {
   }
 
   isOver() {
-    return this._state.lives <= 0;
+    return this._state.lives < 0;
   }
 
   isFinished() {

@@ -1,8 +1,8 @@
-import {Life, AnswerPoint, AnswerTime, TOTAL_QUESTIONS} from '../../data/game-config';
+import {Life, AnswerPoint, AnswerTime, TOTAL_QUESTIONS, TimerConfig} from '../../data/game-config';
 import {isObject} from '../is';
 
-const isFastAnswer = (time) => time < AnswerTime.FAST;
-const isSlowAnswer = (time) => time > AnswerTime.SLOW;
+export const isFastAnswer = (time) => TimerConfig.DEFAULT_TIME - time <= AnswerTime.FAST;
+export const isSlowAnswer = (time) => TimerConfig.DEFAULT_TIME - time >= AnswerTime.SLOW;
 
 /**
  * @typedef {Object} Answer
@@ -26,7 +26,7 @@ export const getAnswerScore = (answer) => {
   }
 
   if (!(`time` in answer)) {
-    throw new Error(`'answer' object doesn't have 'isCorrect' property assigned!`);
+    throw new Error(`'answer' object doesn't have 'time' property assigned!`);
   }
 
   if ((typeof answer.isCorrect) !== `boolean`) {
@@ -66,12 +66,12 @@ export const getTotalScore = (answers, lives) => {
     throw new Error(`Argument 'lives' should be a number!`);
   }
 
-  if (lives < 0 || lives > Life.COUNT) {
-    throw new Error(`'lives' count is out of range!`);
-  }
-
   if (answers.length < TOTAL_QUESTIONS) {
     return -1;
+  }
+
+  if (lives < -1 || lives > Life.COUNT) {
+    throw new Error(`'lives' count is out of range!`);
   }
 
   const answersScore = answers.reduce((sum, current) => {

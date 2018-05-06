@@ -58,7 +58,7 @@ export default class GameScreen {
 
   changeLevel() {
     if (this.model.isOver() || this.model.isFinished()) {
-      Application.showResults(this.results);
+      Application.showResults(this.results, this.model.getPlayerName());
     } else {
       this.model.nextLevel();
       this.startGame();

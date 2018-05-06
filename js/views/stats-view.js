@@ -1,5 +1,6 @@
 import AbstractView from './abstract-view';
 import {AnswerTime, AnswerPoint, StatsConfig} from '../data/game-config';
+import {isSlowAnswer, isFastAnswer} from '../util/calc/index';
 
 export default class StatsView extends AbstractView {
   constructor({total, answers, lives, statsBar}) {
@@ -12,8 +13,8 @@ export default class StatsView extends AbstractView {
 
   get template() {
     const results = this.total > 0
-      ? this.getWinTemplate(this.answers, this.lives, this.statsBar, this.total, 1)
-      : this.getLooseTemplate(this.statsBar, 1);
+      ? StatsView.getWinTemplate(this.answers, this.lives, this.statsBar, this.total, 1)
+      : StatsView.getLooseTemplate(this.statsBar, 1);
 
     return `
       <div class="result">
@@ -23,7 +24,19 @@ export default class StatsView extends AbstractView {
     `;
   }
 
-  getLooseTemplate(stats, i) {
+  showScores(scores) {
+    this.history.innerHTML = scores.reverse().slice(1, 3).map((score, i) =>
+      score.total > 0
+        ? StatsView.getWinTemplate(score.answers, score.lives, score.statsBar, score.total, i + 2)
+        : StatsView.getLooseTemplate(score.statsBar, i + 2)
+    ).join(` `);
+  }
+
+  bind() {
+    this.history = this.element.querySelector(`.result--history`);
+  }
+
+  static getLooseTemplate(stats, i) {
     return `
       <h1>${StatsConfig.FAIL_TITLE}</h1>
       <table class="result__table">
@@ -39,10 +52,11 @@ export default class StatsView extends AbstractView {
     `;
   }
 
-  getWinTemplate(answers, lives, stats, total, i) {
-    const correctAnswersCount = answers.filter((answer) => answer.answer === true).length;
-    const fastAnswersCount = answers.filter((answer) => answer.time > AnswerTime.FAST).length;
-    const slowAnswersCount = answers.filter((answer) => answer.time < AnswerTime.SLOW).length;
+  static getWinTemplate(answers, lives, stats, total, i) {
+    const correctAnswers = answers.filter((answer) => answer.isCorrect);
+    const correctAnswersCount = correctAnswers.length;
+    const fastAnswersCount = correctAnswers.filter((answer) => isFastAnswer(answer.time)).length;
+    const slowAnswersCount = correctAnswers.filter((answer) => isSlowAnswer(answer.time)).length;
 
     return `
       <h1>${StatsConfig.VICTORY_TITLE}</h1>
@@ -55,9 +69,9 @@ export default class StatsView extends AbstractView {
           <td class="result__points">×&nbsp;${AnswerPoint.DEFAULT}</td>
           <td class="result__total">${correctAnswersCount * AnswerPoint.DEFAULT}</td>
         </tr>
-        ${this.getRow(lives, StatsConfig.LIVES_RESULTS)}
-        ${this.getRow(fastAnswersCount, StatsConfig.FAST_RESULTS)}
-        ${this.getRow(slowAnswersCount, StatsConfig.SLOW_RESULTS)}
+        ${StatsView.getRow(lives, StatsConfig.LIVES_RESULTS)}
+        ${StatsView.getRow(fastAnswersCount, StatsConfig.FAST_RESULTS)}
+        ${StatsView.getRow(slowAnswersCount, StatsConfig.SLOW_RESULTS)}
         <tr>
           <td colspan="5" class="result__total  result__total--final">${total}</td>
         </tr>
@@ -65,7 +79,7 @@ export default class StatsView extends AbstractView {
     `;
   }
 
-  getRow(count, result) {
+  static getRow(count, result) {
     if (!count) {
       return ``;
     }
@@ -78,17 +92,5 @@ export default class StatsView extends AbstractView {
         <td class="result__total">${count * result.POINTS}</td>
       </tr>
     `;
-  }
-
-  showScores(scores) {
-    this.history.innerHTML = scores.reverse().slice(1, 3).map((score, i) =>
-      score.total > 0
-        ? this.getWinTemplate(score.answers, score.lives, score.statsBar, score.total, i + 2)
-        : this.getLooseTemplate(score.statsBar, i + 2)
-    ).join(` `);
-  }
-
-  bind() {
-    this.history = this.element.querySelector(`.result--history`);
   }
 }

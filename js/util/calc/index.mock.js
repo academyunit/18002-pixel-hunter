@@ -1,4 +1,4 @@
-import {AnswerTime} from '../../data/game-config';
+import {AnswerTime, TimerConfig, TOTAL_QUESTIONS} from '../../data/game-config';
 
 export const LIFE = {
   MAX: 3,
@@ -7,11 +7,8 @@ export const LIFE = {
   NONE: 0
 };
 
-/** Кол-вол ответов для мока */
-const ANSWERS_MOCK_AMOUNT = 10;
-
 const getAnswers = ({isCorrect, time}) => {
-  let answers = new Array(ANSWERS_MOCK_AMOUNT).fill({});
+  let answers = new Array(TOTAL_QUESTIONS).fill({});
 
   return answers.map((answer) => {
     answer.isCorrect = isCorrect;
@@ -24,7 +21,7 @@ const getAnswers = ({isCorrect, time}) => {
 export const answer = {
   slow: {
     isCorrect: true,
-    time: AnswerTime.SLOW + 1
+    time: TimerConfig.DEFAULT_TIME - AnswerTime.SLOW
   },
   normal: {
     isCorrect: true,
@@ -32,7 +29,7 @@ export const answer = {
   },
   fast: {
     isCorrect: true,
-    time: AnswerTime.FAST - 1
+    time: TimerConfig.DEFAULT_TIME - AnswerTime.FAST
   },
   failed: {
     isCorrect: false,

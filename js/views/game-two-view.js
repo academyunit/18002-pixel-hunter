@@ -28,29 +28,15 @@ export default class GameTwoView extends AbstractView {
 
   bind() {
     const form = this.element.querySelector(`.game__content`);
-    const answersList = Array.from(form.querySelectorAll(`input[type="radio"]`));
 
-    const isAnswered = () => answersList.some((answer) => answer.checked);
-    const isSelectedAnswerCorrect = () => {
-      const {answers} = this.level;
-
-      for (const currentAnswer of answersList) {
-        if (currentAnswer.checked && currentAnswer.value === answers[0].type) {
-          return true;
-        }
-      }
-
-      return false;
-    };
-
-    this.element.addEventListener(`change`, (event) => {
-      event.preventDefault();
-
-      if (!isAnswered()) {
+    form.addEventListener(`change`, (event) => {
+      if (event.target.tagName !== `INPUT`) {
         return;
       }
 
-      this.onAnswer(isSelectedAnswerCorrect());
+      const answer = (event.target.value === this.level.answers[0].type);
+
+      this.onAnswer(answer);
     });
   }
 

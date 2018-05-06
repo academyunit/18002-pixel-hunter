@@ -24,51 +24,48 @@ export default class GameThreeView extends AbstractView {
     `;
   }
 
+  getCorrectAnswerType() {
+    const availableTypesCount = {
+      [AnswerType.PAINTING]: 0,
+      [AnswerType.PHOTO]: 0
+    };
+    const {answers} = this.level;
+
+    for (const answer of answers) {
+      availableTypesCount[answer.type]++;
+
+      if (availableTypesCount[AnswerType.PAINTING] > 1) {
+        return AnswerType.PHOTO;
+      }
+    }
+
+    return AnswerType.PAINTING;
+  };
+
+  getCurrentAnswerType(answer) {
+    const {answers} = this.level;
+    const answersList = Array.from(this.element.querySelectorAll(`.game__option`));
+    const currentAnswerIndex = answersList.indexOf(answer);
+
+    return answers[currentAnswerIndex] ? answers[currentAnswerIndex].type : '';
+  }
+
   bind() {
     const markSelectedAnswer = (answer) => answer.classList.add(`game__option--selected`);
-    const isCorrectAnswer = (answer) => {
-      const answersList = Array.from(this.element.querySelectorAll(`.game__option`));
-
-      const selectedAnswerIndex = answersList.indexOf(answer);
-      const correctAnswerIndex = getCorrectAnswerIndex();
-
-      return (selectedAnswerIndex === correctAnswerIndex);
-    };
-
-    // Один проход по массиву -  O(n) ! :)
-    const getCorrectAnswerIndex = () => {
-      const {answers} = this.level;
-
-      let availableTypes = {
-        [AnswerType.PAINTING]: 0,
-        [AnswerType.PHOTO]: 0
-      };
-
-      let correctAnswerIndex = -1;
-      for (let i = 0; i < answers.length; i++) {
-        const imageType = answers[i].type;
-
-        availableTypes[imageType]++;
-
-        if (availableTypes[imageType] < 2) {
-          correctAnswerIndex = i;
-        }
-      }
-
-      return correctAnswerIndex;
-    };
 
     this.element.addEventListener(`click`, (event) => {
       event.preventDefault();
 
-      const answer = event.target.closest(`.game__option`);
-      if (!answer) {
+      const inputControl = event.target.closest(`.game__option`);
+      if (!inputControl) {
         return;
       }
 
-      markSelectedAnswer(answer);
+      markSelectedAnswer(inputControl);
 
-      this.onAnswer(isCorrectAnswer(answer));
+      const answer = this.getCorrectAnswerType() === this.getCurrentAnswerType(inputControl);
+
+      this.onAnswer(answer);
     });
   }
 

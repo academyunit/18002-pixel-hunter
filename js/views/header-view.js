@@ -4,26 +4,9 @@ import {Life} from '../data/game-config';
 
 export default class HeaderView extends AbstractView {
 
-  constructor(game) {
+  constructor(game = null) {
     super();
     this.game = game;
-  }
-
-  updateTimer() {}
-
-  bind() {
-    const backButton = this.element.querySelector(`.back`);
-    if (!backButton) {
-      return;
-    }
-
-    backButton.addEventListener(`click`, (event) => {
-      event.preventDefault();
-      // eslint-disable-next-line
-      if (confirm(`Вы хотите начать игру сначала? Весь текущий прогресс будет утерян!`)) {
-        Application.showGreeting();
-      }
-    });
   }
 
   get template() {
@@ -42,19 +25,33 @@ export default class HeaderView extends AbstractView {
     `;
   }
 
-  /**
-   * @param {Boolean} full
-   * @return {String}
-   */
-  drawHeart(full) {
-    return `<img src='img/heart__${full ? `full` : `empty`}.svg' class='game__heart' alt='Life' width='32' height='32'>`;
+  updateTimer() {}
+
+  bind() {
+    const backButton = this.element.querySelector(`.back`);
+    if (!backButton) {
+      return;
+    }
+
+    backButton.addEventListener(`click`, (event) => {
+      event.preventDefault();
+
+      if (!this.game) {
+        Application.showGreeting();
+        return;
+      }
+      // eslint-disable-next-line
+      if (confirm(`Вы хотите начать игру сначала? Весь текущий прогресс будет утерян!`)) {
+        Application.showGreeting();
+      }
+    });
   }
 
   renderContentWithData() {
     const {state: {time, lives}} = this.game;
 
-    const fullLives = new Array(Life.COUNT - lives).fill(this.drawHeart(false)).join(``);
-    const emptyLives = new Array(lives).fill(this.drawHeart(true)).join(``);
+    const fullLives = new Array(Life.COUNT - lives).fill(HeaderView.drawHeart(false)).join(``);
+    const emptyLives = new Array(lives).fill(HeaderView.drawHeart(true)).join(``);
 
     return `<h1 class='game__timer'>${time}</h1>
           <div class='game__lives'>
@@ -63,4 +60,11 @@ export default class HeaderView extends AbstractView {
           </div>`;
   }
 
+  /**
+   * @param {Boolean} full
+   * @return {String}
+   */
+  static drawHeart(full) {
+    return `<img src='img/heart__${full ? `full` : `empty`}.svg' class='game__heart' alt='Life' width='32' height='32'>`;
+  }
 }

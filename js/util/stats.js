@@ -1,4 +1,5 @@
 import {AnswerTime} from '../data/game-config';
+import {isSlowAnswer, isFastAnswer} from './calc/index';
 
 const getEmptyQuestionsIcons = (answers, totalAnswers) => {
   return new Array(totalAnswers.length - answers.length)
@@ -6,13 +7,25 @@ const getEmptyQuestionsIcons = (answers, totalAnswers) => {
       .join(``);
 };
 
+const getIcon = (isCorrect, time) => {
+  if (!isCorrect) {
+    return `wrong`;
+  }
+
+  if (isSlowAnswer(time)) {
+    return `slow`;
+  }
+
+  if (isFastAnswer(time)) {
+    return `fast`;
+  }
+
+  return `correct`;
+};
+
 export const getStatsTemplate = (answers, totalAnswers) => {
   let output = answers.reduce((questions, {isCorrect, time}) => {
-    let icon = `wrong`;
-    if (isCorrect) {
-      icon = time < AnswerTime.SLOW ? `slow` : `fast`;
-    }
-    return questions + `<li class="stats__result stats__result--${icon}"></li>`;
+    return questions + `<li class="stats__result stats__result--${getIcon(isCorrect, time)}"></li>`;
   }, ``);
 
   // Оставшиеся вопросы пока не отвечены и должны быть помечены нейтральными иконками

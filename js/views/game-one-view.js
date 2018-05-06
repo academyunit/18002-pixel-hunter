@@ -1,6 +1,8 @@
 import AbstractView from '../views/abstract-view';
 import renderQuestions from '../util/questions';
 
+const MIN_ANSWERS_REQUIRED = 2;
+
 /**
  * Две картинки
  */
@@ -26,34 +28,28 @@ export default class GameOneView extends AbstractView {
     `;
   }
 
-  /**
-   * @todo: спросить Леонида как избавиться от порнографии снизу тут и в остальных вьюхах - как эффективнее всего с контролами работать... :)
-   */
   bind() {
-    const ANSWERS_REQUIRED = 2;
-
     const form = this.element.querySelector(`.game__content`);
-    const answersList = Array.from(form.querySelectorAll(`input[type="radio"]`));
-    const answer1 = Array.from(form.querySelectorAll(`input[name="question1"]`));
-    const answer2 = Array.from(form.querySelectorAll(`input[name="question2"]`));
 
-    // логику проверки вопросов можно сделать получше
-    const checkAnswer = (answer, correctValue) => answer.findIndex((control) => control.checked && control.value === correctValue) > -1;
-    const isAnswered = () => answersList.filter((answer) => answer.checked).length === ANSWERS_REQUIRED;
-    const isCorrectAnswer = () => {
+    form.addEventListener(`change`, (event) => {
       const {answers} = this.level;
+      let checkedInputs;
 
-      return checkAnswer(answer1, answers[0].type) && checkAnswer(answer2, answers[1].type);
-    };
-
-    this.element.addEventListener(`change`, (event) => {
-      event.preventDefault();
-
-      if (!isAnswered()) {
+      if (event.target.tagName !== `INPUT`) {
         return;
       }
 
-      this.onAnswer(isCorrectAnswer());
+      checkedInputs = Array.from(event.currentTarget).filter((input) => input.checked);
+      if (checkedInputs.length < MIN_ANSWERS_REQUIRED) {
+        return;
+      }
+
+      const answer = (
+        checkedInputs[0].value === answers[0].type
+        && checkedInputs[1].value === answers[1].type
+      );
+
+      this.onAnswer(answer);
     });
   }
 

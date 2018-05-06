@@ -8,7 +8,7 @@ export const LIFE = {
 };
 
 const getAnswers = ({isCorrect, time}) => {
-  let answers = new Array(TOTAL_QUESTIONS).fill({});
+  const answers = new Array(TOTAL_QUESTIONS).fill({});
 
   return answers.map((answer) => {
     answer.isCorrect = isCorrect;

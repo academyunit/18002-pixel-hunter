@@ -7,7 +7,8 @@ import StatsView from './views/stats-view';
 import ErrorView from './views/error-view';
 import GameModel from './data/game-model';
 import GameScreen from './game-screen';
-import Loader from './loader';
+import Loader, {preCacheAssets} from './loader';
+import {fadeIn, fadeOut} from './util/fade';
 
 /** Сцена на которой рендерятся View. */
 const stage = document.querySelector(`.central`);
@@ -34,13 +35,16 @@ export default class Application {
 
   static start() {
     Application.showIntro();
+
     Loader
         .loadData()
         .then((data) => {
           gameData = data;
 
-          Application.showGreeting();
+          return preCacheAssets(data);
         })
+        .then((assetsPromises) => Promise.all(assetsPromises))
+        .then(() => Application.showGreeting())
         .catch(Application.showError);
   }
 
@@ -51,9 +55,14 @@ export default class Application {
   }
 
   static showGreeting() {
-    const greetingView = new GreetingView();
+    fadeOut(stage);
 
-    changeView(greetingView.element);
+    setTimeout(() => {
+      fadeIn(stage);
+
+      const greetingView = new GreetingView();
+      changeView(greetingView.element);
+    }, 2000);
   }
 
   static showRules() {

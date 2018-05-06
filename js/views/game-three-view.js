@@ -40,14 +40,14 @@ export default class GameThreeView extends AbstractView {
     }
 
     return AnswerType.PAINTING;
-  };
+  }
 
   getCurrentAnswerType(answer) {
     const {answers} = this.level;
     const answersList = Array.from(this.element.querySelectorAll(`.game__option`));
     const currentAnswerIndex = answersList.indexOf(answer);
 
-    return answers[currentAnswerIndex] ? answers[currentAnswerIndex].type : '';
+    return answers[currentAnswerIndex] ? answers[currentAnswerIndex].type : ``;
   }
 
   bind() {

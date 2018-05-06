@@ -1,4 +1,3 @@
-import {AnswerTime} from '../data/game-config';
 import {isSlowAnswer, isFastAnswer} from './calc/index';
 
 const getEmptyQuestionsIcons = (answers, totalAnswers) => {

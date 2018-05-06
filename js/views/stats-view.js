@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view';
-import {AnswerTime, AnswerPoint, StatsConfig} from '../data/game-config';
+import {AnswerPoint, StatsConfig} from '../data/game-config';
 import {isSlowAnswer, isFastAnswer} from '../util/calc/index';
 
 export default class StatsView extends AbstractView {
